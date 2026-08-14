@@ -65,7 +65,7 @@ body {
   padding: 14px 34px;
   background: var(--pink);
   color: #fff;
-  font-size: 34px;
+  font-size: 36px;
   font-weight: 700;
   letter-spacing: .22em;
   border-radius: 14px 14px 14px 4px;
@@ -87,7 +87,7 @@ body {
   gap: 28px;
 }
 .title h1 {
-  font-size: 126px;
+  font-size: 122px;
   font-weight: 800;
   letter-spacing: -.015em;
   line-height: 1;
@@ -96,7 +96,7 @@ body {
 .title .script {
   font-family: "Caveat", cursive;
   font-weight: 700;
-  font-size: 88px;
+  font-size: 86px;
   color: var(--pink);
   transform: rotate(-6deg) translateY(14px);
 }
@@ -159,9 +159,9 @@ body {
   border-radius: 2px;
 }
 .footer .tag {
-  font-size: 31px;
+  font-size: 33px;
   font-weight: 600;
-  letter-spacing: .3em;
+  letter-spacing: .28em;
   color: var(--ink-soft);
   text-transform: uppercase;
 }
