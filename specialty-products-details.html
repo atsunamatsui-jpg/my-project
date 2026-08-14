@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Matsui Specialty Products — Details</title>
+<link rel="stylesheet" href="assets/poster.css">
+<style>
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 46px;
+    padding: 0 76px;
+    margin-top: 58px;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 34px;
+    padding: 44px 40px 44px 36px;
+  }
+  .shot { width: 178px; height: 178px; flex: 0 0 178px; }
+  .name { font-size: 33px; margin-bottom: 8px; }
+  .sub  { font-size: 19px; margin-bottom: 18px; }
+  .badge { font-size: 16px; padding: 10px 18px; }
+
+  .points { margin-top: 20px; }
+  .points li {
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.28;
+    color: var(--ink);
+  }
+  .points li + li { margin-top: 11px; }
+  .points .tick {
+    flex: 0 0 24px;
+    width: 24px; height: 24px;
+    margin-top: 2px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-family: "DejaVu Sans", sans-serif;
+    font-size: 14px;
+    line-height: 24px;
+    text-align: center;
+  }
+  .footer { margin-top: 74px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div><div class="blob b6"></div>
+  <div class="dots"></div>
+
+  <div class="content">
+    <div class="new-chip">NEW</div>
+
+    <img class="logo" src="Matsui logo.png" width="500" alt="Matsui International Company, Inc.">
+
+    <div class="title">
+      <h1>SPECIALTY</h1>
+      <span class="script">Products</span>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="--accent:var(--c-vintage); --glow:rgba(255,46,99,.45)">
+        <img class="shot" src="assets/vintage.png" alt="Vintage white and base ink print">
+        <div>
+          <div class="name">VINTAGE</div>
+          <div class="sub">White &amp; Base</div>
+          <span class="badge">HIGH OPACITY BASE INK</span>
+          <ul class="points">
+            <li><span class="tick">&#10003;</span>High mesh printing</li>
+            <li><span class="tick">&#10003;</span>Strong elasticity</li>
+            <li><span class="tick">&#10003;</span>Max 350 mesh</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="--accent:var(--c-pearl); --glow:rgba(30,200,230,.45)">
+        <img class="shot" src="assets/pearlescent.png" alt="Pearlescent shimmer ink print">
+        <div>
+          <div class="name">PEARLESCENT</div>
+          <div class="sub">Shimmer</div>
+          <span class="badge">SHIMMER EFFECT INK</span>
+          <ul class="points">
+            <li><span class="tick">&#10003;</span>Pigmented any colors</li>
+            <li><span class="tick">&#10003;</span>Soft hand</li>
+            <li><span class="tick">&#10003;</span>Strong color value</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="--accent:var(--c-g600); --glow:rgba(245,166,35,.45)">
+        <img class="shot" src="assets/g600.png" alt="G600 top coat print">
+        <div>
+          <div class="name">G600</div>
+          <div class="sub">Top Coat</div>
+          <span class="badge">PERFORMANCE TOP COAT</span>
+          <ul class="points">
+            <li><span class="tick">&#10003;</span>Super Gel Top Coat</li>
+            <li><span class="tick">&#10003;</span>Shishine gloss</li>
+            <li><span class="tick">&#10003;</span>Using 0.5% Top Fixer (Catalyst)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="--accent:var(--c-velvet); --glow:rgba(249,115,22,.45)">
+        <img class="shot" src="assets/velvet.png" alt="Velvet puff ink print">
+        <div>
+          <div class="name">VELVET</div>
+          <div class="sub">Puff</div>
+          <span class="badge">SOFT PUFF INK</span>
+          <ul class="points">
+            <li><span class="tick">&#10003;</span>Feeling like flock</li>
+            <li><span class="tick">&#10003;</span>Soft hand</li>
+            <li><span class="tick">&#10003;</span>Strong color value</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="--accent:var(--c-3d); --glow:rgba(192,38,211,.45)">
+        <img class="shot" src="assets/3d.png" alt="3D white and clear high density ink print">
+        <div>
+          <div class="name">3D</div>
+          <div class="sub">White &amp; Clear</div>
+          <span class="badge">HIGH DENSITY INK</span>
+          <ul class="points">
+            <li><span class="tick">&#10003;</span>Water base high-density</li>
+            <li><span class="tick">&#10003;</span>Use 100&micro; to 200&micro;</li>
+            <li><span class="tick">&#10003;</span>Soft hand</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="--accent:var(--c-eco); --glow:rgba(108,194,74,.45)">
+        <img class="shot" src="assets/eco.png" alt="Eco Discharge white and clear ink print">
+        <div>
+          <div class="name">ECO DISCHARGE</div>
+          <div class="sub">White &amp; Clear</div>
+          <span class="badge">ECO FRIENDLY INK</span>
+          <ul class="points">
+            <li><span class="tick">&#10003;</span>Formaldehyde-free</li>
+            <li><span class="tick">&#10003;</span>Great color value</li>
+            <li><span class="tick">&#10003;</span>Soft hand</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="rule"></div>
+      <div class="tag">Premium Screen Printing Inks</div>
+      <div class="swatches">
+        <i style="background:var(--c-vintage)"></i>
+        <i style="background:var(--c-pearl)"></i>
+        <i style="background:var(--c-g600)"></i>
+        <i style="background:var(--c-velvet)"></i>
+        <i style="background:var(--c-3d)"></i>
+        <i style="background:var(--c-eco)"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

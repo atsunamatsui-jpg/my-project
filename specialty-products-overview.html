@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Matsui Specialty Products</title>
+<link rel="stylesheet" href="assets/poster.css">
+<style>
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 36px;
+    padding: 0 76px;
+    margin-top: 66px;
+  }
+  .card { padding: 46px 30px 44px; text-align: center; }
+  .shot { width: 210px; height: 210px; margin: 0 auto 30px; }
+  .name { font-size: 38px; margin-bottom: 10px; }
+  .sub  { font-size: 22px; margin-bottom: 26px; }
+  .badge { font-size: 18px; padding: 13px 22px; }
+  .footer { margin-top: 118px; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+  <div class="blob b4"></div><div class="blob b5"></div><div class="blob b6"></div>
+  <div class="dots"></div>
+
+  <div class="content">
+    <div class="new-chip">NEW</div>
+
+    <img class="logo" src="Matsui logo.png" width="530" alt="Matsui International Company, Inc.">
+
+    <div class="title">
+      <h1>SPECIALTY</h1>
+      <span class="script">Products</span>
+    </div>
+
+    <div class="grid">
+      <div class="card" style="--accent:var(--c-vintage); --glow:rgba(255,46,99,.45)">
+        <img class="shot" src="assets/vintage.png" alt="Vintage white and base ink print">
+        <div class="name">VINTAGE</div>
+        <div class="sub">White &amp; Base</div>
+        <span class="badge">HIGH OPACITY BASE INK</span>
+      </div>
+
+      <div class="card" style="--accent:var(--c-pearl); --glow:rgba(30,200,230,.45)">
+        <img class="shot" src="assets/pearlescent.png" alt="Pearlescent shimmer ink print">
+        <div class="name">PEARLESCENT</div>
+        <div class="sub">Shimmer</div>
+        <span class="badge">SHIMMER EFFECT INK</span>
+      </div>
+
+      <div class="card" style="--accent:var(--c-g600); --glow:rgba(245,166,35,.45)">
+        <img class="shot" src="assets/g600.png" alt="G600 top coat print">
+        <div class="name">G600</div>
+        <div class="sub">Top Coat</div>
+        <span class="badge">PERFORMANCE TOP COAT</span>
+      </div>
+
+      <div class="card" style="--accent:var(--c-velvet); --glow:rgba(249,115,22,.45)">
+        <img class="shot" src="assets/velvet.png" alt="Velvet puff ink print">
+        <div class="name">VELVET</div>
+        <div class="sub">Puff</div>
+        <span class="badge">SOFT PUFF INK</span>
+      </div>
+
+      <div class="card" style="--accent:var(--c-3d); --glow:rgba(192,38,211,.45)">
+        <img class="shot" src="assets/3d.png" alt="3D white and clear high density ink print">
+        <div class="name">3D</div>
+        <div class="sub">White &amp; Clear</div>
+        <span class="badge">HIGH DENSITY INK</span>
+      </div>
+
+      <div class="card" style="--accent:var(--c-eco); --glow:rgba(108,194,74,.45)">
+        <img class="shot" src="assets/eco.png" alt="Eco Discharge white and clear ink print">
+        <div class="name">ECO DISCHARGE</div>
+        <div class="sub">White &amp; Clear</div>
+        <span class="badge">ECO FRIENDLY INK</span>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="rule"></div>
+      <div class="tag">Premium Screen Printing Inks</div>
+      <div class="swatches">
+        <i style="background:var(--c-vintage)"></i>
+        <i style="background:var(--c-pearl)"></i>
+        <i style="background:var(--c-g600)"></i>
+        <i style="background:var(--c-velvet)"></i>
+        <i style="background:var(--c-3d)"></i>
+        <i style="background:var(--c-eco)"></i>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
