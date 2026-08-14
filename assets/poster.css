@@ -65,7 +65,7 @@ body {
   padding: 14px 34px;
   background: var(--pink);
   color: #fff;
-  font-size: 30px;
+  font-size: 34px;
   font-weight: 700;
   letter-spacing: .22em;
   border-radius: 14px 14px 14px 4px;
@@ -76,18 +76,18 @@ body {
 .logo {
   display: block;
   margin: 0 auto;
-  padding-top: 62px;
+  padding-top: 50px;
 }
 
 .title {
-  margin-top: 30px;
+  margin-top: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 28px;
 }
 .title h1 {
-  font-size: 148px;
+  font-size: 126px;
   font-weight: 800;
   letter-spacing: -.015em;
   line-height: 1;
@@ -96,7 +96,7 @@ body {
 .title .script {
   font-family: "Caveat", cursive;
   font-weight: 700;
-  font-size: 96px;
+  font-size: 88px;
   color: var(--pink);
   transform: rotate(-6deg) translateY(14px);
 }
@@ -154,22 +154,22 @@ body {
 .footer { text-align: center; }
 .footer .rule {
   width: 72px; height: 4px;
-  margin: 0 auto 26px;
+  margin: 0 auto 20px;
   background: var(--pink);
   border-radius: 2px;
 }
 .footer .tag {
-  font-size: 25px;
+  font-size: 31px;
   font-weight: 600;
-  letter-spacing: .34em;
+  letter-spacing: .3em;
   color: var(--ink-soft);
   text-transform: uppercase;
 }
 .swatches {
   display: flex;
-  width: 440px;
-  margin: 34px auto 0;
-  height: 12px;
+  width: 470px;
+  margin: 30px auto 0;
+  height: 13px;
   border-radius: 6px;
   overflow: hidden;
 }
