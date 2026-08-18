@@ -12,7 +12,18 @@ import sys
 LAYER = sys.argv[1] if len(sys.argv) > 1 else 'all'
 assert LAYER in ('bg', 'fg', 'all')
 
-W, H = 6000, 3000
+# Trim (finished) size is 240x120in mapped to 6000x3000 css px -> 25 px/in.
+# No printer spec was supplied, so this uses the common vinyl-banner setup:
+# 2in bleed all round and a 4in safe margin inside trim, which clears the
+# hem and grommet line on a banner this size.
+TRIM_W, TRIM_H = 6000, 3000        # 240 x 120 in
+PX_PER_IN = 25
+BLEED_IN, SAFE_IN = 2, 4
+BLEED = BLEED_IN * PX_PER_IN       # 50 px
+SAFE  = SAFE_IN * PX_PER_IN        # 100 px
+W, H = TRIM_W + BLEED*2, TRIM_H + BLEED*2   # 6100 x 3100 = 244 x 124 in
+
+SHOW_GUIDES = '--guides' in sys.argv
 
 def b64(p):
     with open(p, 'rb') as f:
@@ -175,12 +186,15 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   font-family:'Body',sans-serif;
 }}
 
-.content {{ position:absolute; inset:0; z-index:2; display:flex; }}
+.content {{
+  position:absolute; z-index:2; display:flex;
+  top:{BLEED}px; left:{BLEED}px; width:{TRIM_W}px; height:{TRIM_H}px;
+}}
 
 .col {{ position:relative; display:flex; flex-direction:column; align-items:center; }}
-.col-mm4  {{ width:38%; padding:78px 60px 0; }}
-.col-mm2  {{ width:34%; padding:78px 50px 0; }}
-.col-cons {{ width:28%; padding:78px 60px 0; }}
+.col-mm4  {{ width:38%; padding:{SAFE+18}px 62px 0; }}
+.col-mm2  {{ width:34%; padding:{SAFE+18}px 52px 0; }}
+.col-cons {{ width:28%; padding:{SAFE+18}px {SAFE+10}px 0; }}
 
 /* ---- brandmark ---- */
 .droprow {{ display:inline-flex; align-items:center; }}
@@ -240,7 +254,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:20px; letter-spacing:1.5px; color:rgba(255,255,255,0.76); }}
 
 /* ---- hero ---- */
-.hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:center; justify-content:center; padding-bottom:60px; }}
+.hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:center; justify-content:center; padding-bottom:{SAFE+10}px; }}
 .hero img {{ width:104%; max-width:none; height:auto; max-height:100%; object-fit:contain; display:block;
              filter:drop-shadow(0 46px 54px rgba(0,0,0,0.62)); }}
 
@@ -261,7 +275,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   flex:1; min-height:0; width:100%;
   display:grid; grid-template-columns:repeat(6,1fr);
   grid-auto-rows:1fr; gap:24px;
-  padding-bottom:70px;
+  padding-bottom:{SAFE+10}px;
 }}
 .cons-card {{
   background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,rgba(255,255,255,0.022) 100%);
@@ -328,11 +342,34 @@ CONTENT_HTML = f'''
 
   </div>'''
 
+GUIDE_HTML = f'''
+  <div class="guides">
+    <div class="g-trim"></div><div class="g-safe"></div>
+    <div class="g-tag g-tag-trim">TRIM 240 x 120 in</div>
+    <div class="g-tag g-tag-bleed">BLEED {BLEED_IN}in — 244 x 124 in</div>
+    <div class="g-tag g-tag-safe">SAFE {SAFE_IN}in</div>
+  </div>'''
+
+GUIDE_CSS = f'''
+.guides {{ position:absolute; inset:0; z-index:50; pointer-events:none; }}
+.g-trim {{ position:absolute; top:{BLEED}px; left:{BLEED}px;
+  width:{TRIM_W}px; height:{TRIM_H}px; outline:4px dashed #00E5FF; }}
+.g-safe {{ position:absolute; top:{BLEED+SAFE}px; left:{BLEED+SAFE}px;
+  width:{TRIM_W-SAFE*2}px; height:{TRIM_H-SAFE*2}px; outline:4px dashed #FFD400; }}
+.g-tag {{ position:absolute; font-family:'Body',sans-serif; font-weight:700;
+  font-size:34px; letter-spacing:2px; padding:10px 18px; border-radius:4px; }}
+.g-tag-bleed {{ top:8px; left:12px; background:#FF2D8E; color:#fff; }}
+.g-tag-trim  {{ top:{BLEED+14}px; left:{BLEED+14}px; background:#00E5FF; color:#00232B; }}
+.g-tag-safe  {{ top:{BLEED+SAFE+14}px; left:{BLEED+SAFE+14}px; background:#FFD400; color:#2B2200; }}
+'''
+
 body_parts = []
 if LAYER in ('bg', 'all'):
     body_parts.append(BG_HTML)
 if LAYER in ('fg', 'all'):
     body_parts.append(CONTENT_HTML)
+if SHOW_GUIDES:
+    body_parts.append(GUIDE_HTML)
 
 # a transparent page for the foreground layer so it can sit over any ground
 page_bg = 'transparent' if LAYER == 'fg' else '#0A0A0A'
@@ -349,6 +386,7 @@ HTML = f'''<!DOCTYPE html>
 {FONT_FACES}
 {FG_CSS}
 {BG_CSS}
+{GUIDE_CSS if SHOW_GUIDES else ''}
 html,body {{ background:{page_bg}; }}
 .banner {{ background:{'transparent' if LAYER=='fg' else '#07090D'}; }}
 </style>
@@ -361,7 +399,7 @@ html,body {{ background:{page_bg}; }}
 </html>
 '''
 
-out = f'wide_{LAYER}.html'
+out = f'wide_{LAYER}{"_guides" if SHOW_GUIDES else ""}.html'
 with open(out, 'w') as f:
     f.write(HTML)
 print('wrote', out, len(HTML))
