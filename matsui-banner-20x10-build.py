@@ -126,33 +126,33 @@ BG_HTML = '''
 
 BG_CSS = f'''
 .bg {{ position:absolute; inset:0; z-index:0; }}
-.bg-base {{ position:absolute; inset:0; background:#07090D; }}
+.bg-base {{ position:absolute; inset:0; background:#0B2430; }}
 
 .bg-p {{ position:absolute; top:0; bottom:0; }}
 /* MM4 — cool teal */
 .bg-p1 {{
   left:0; width:38%;
   background:
-    radial-gradient(ellipse 76% 58% at 44% 34%, rgba(0,190,214,0.34) 0%, rgba(0,190,214,0) 64%),
-    radial-gradient(ellipse 60% 44% at 10% 94%, rgba(0,120,150,0.24) 0%, rgba(0,120,150,0) 62%),
-    linear-gradient(168deg,#070C11 0%,#0A141B 48%,#07101A 100%);
+    radial-gradient(ellipse 74% 56% at 46% 30%, rgba(120,255,245,0.30) 0%, rgba(120,255,245,0) 62%),
+    radial-gradient(ellipse 64% 48% at 8% 96%, rgba(70,235,215,0.34) 0%, rgba(70,235,215,0) 64%),
+    linear-gradient(168deg,#062B3C 0%,#0C6E88 40%,#14A7BE 72%,#3FD3DC 100%);
   clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
 }}
 /* MM2 — magenta / violet */
 .bg-p2 {{
   left:32%; width:40%;
   background:
-    radial-gradient(ellipse 74% 56% at 52% 32%, rgba(214,0,140,0.30) 0%, rgba(214,0,140,0) 64%),
-    radial-gradient(ellipse 60% 44% at 88% 94%, rgba(110,40,190,0.26) 0%, rgba(110,40,190,0) 62%),
-    linear-gradient(168deg,#0A0710 0%,#140A1C 48%,#0D0715 100%);
+    radial-gradient(ellipse 72% 54% at 54% 28%, rgba(255,110,220,0.30) 0%, rgba(255,110,220,0) 62%),
+    radial-gradient(ellipse 64% 48% at 90% 96%, rgba(190,70,255,0.32) 0%, rgba(190,70,255,0) 64%),
+    linear-gradient(168deg,#26063F 0%,#6D169E 40%,#B227B4 72%,#E8479F 100%);
   clip-path: polygon(12% 0, 100% 0, 88% 100%, 0% 100%);
 }}
 /* consumables — warm gold */
 .bg-p3 {{
   left:66%; right:0; width:34%;
   background:
-    radial-gradient(ellipse 72% 56% at 56% 30%, rgba(201,162,39,0.24) 0%, rgba(201,162,39,0) 64%),
-    linear-gradient(168deg,#0B0A07 0%,#14110A 48%,#0C0B07 100%);
+    radial-gradient(ellipse 72% 54% at 56% 28%, rgba(255,225,130,0.26) 0%, rgba(255,225,130,0) 62%),
+    linear-gradient(168deg,#2C1D08 0%,#7A5711 40%,#A87C22 72%,#CFA53E 100%);
   clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
 }}
 
@@ -163,7 +163,7 @@ BG_CSS = f'''
 }}
 .bg-vig {{
   position:absolute; inset:0;
-  background:radial-gradient(ellipse 76% 66% at 50% 46%, rgba(0,0,0,0) 56%, rgba(0,0,0,0.48) 100%);
+  background:radial-gradient(ellipse 76% 66% at 50% 46%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.32) 100%);
 }}
 .bg-p2::before, .bg-p3::before {{
   content:""; position:absolute; top:0; bottom:0; left:0; width:3px;
@@ -204,11 +204,11 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   color:#fff; letter-spacing:-1px; margin-top:12px; line-height:1;
 }}
 .brand .sub {{
-  font-family:'Body',sans-serif; font-weight:600; font-size:26px; letter-spacing:7px;
+  font-family:'Body',sans-serif; font-weight:600; font-size:38px; letter-spacing:8px;
   color:rgba(255,255,255,0.66); margin-top:18px; text-align:center;
 }}
 .brand .sub2 {{
-  font-family:'Body',sans-serif; font-weight:400; font-size:20px; letter-spacing:5px;
+  font-family:'Body',sans-serif; font-weight:400; font-size:30px; letter-spacing:6px;
   color:rgba(255,255,255,0.48); margin-top:8px;
 }}
 .brand::after {{
@@ -225,24 +225,24 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }}
 .hl .sub {{
-  display:block; font-family:'Body',sans-serif; font-weight:400; font-size:27px;
-  letter-spacing:1.6px; color:rgba(255,255,255,0.74); margin-top:22px; line-height:1.5;
+  display:block; font-family:'Body',sans-serif; font-weight:400; font-size:40px;
+  letter-spacing:1.8px; color:rgba(255,255,255,0.74); margin-top:22px; line-height:1.5;
 }}
 .rainbow {{ text-align:center; margin-top:26px; }}
 .rainbow span {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
-  font-size:60px; letter-spacing:0.5px; line-height:1.3;
+  font-size:68px; letter-spacing:0.5px; line-height:1.3;
 }}
-.rainbow .r1 {{ color:#7FE9F3; }}
-.rainbow .r2 {{ color:#F2D06B; }}
-.rainbow .r3 {{ color:#FF8FD0; }}
+.rainbow .r1 {{ color:#A8F4FB; }}
+.rainbow .r2 {{ color:#FFE28A; }}
+.rainbow .r3 {{ color:#FFE3F4; }}
 
 /* ---- feature chips ---- */
 .feats {{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:34px; }}
 .feat {{
   display:flex; align-items:center; gap:20px;
-  background:rgba(255,255,255,0.05);
-  border:1px solid rgba(255,255,255,0.17);
+  background:rgba(6,12,18,0.34);
+  border:1px solid rgba(255,255,255,0.34);
   border-radius:5px; padding:22px 30px;
 }}
 .feat .ic {{ width:64px; height:64px; flex:none; display:block; }}
@@ -250,8 +250,8 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .feat.feat-c {{ flex-direction:column; text-align:center; gap:14px; padding:26px 24px; }}
 .feat.feat-c .ic {{ width:70px; height:70px; }}
 .ft {{ display:flex; flex-direction:column; line-height:1.24; }}
-.ft b {{ font-family:'Body',sans-serif; font-weight:700; font-size:25px; letter-spacing:1.8px; color:#fff; }}
-.ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:20px; letter-spacing:1.5px; color:rgba(255,255,255,0.76); }}
+.ft b {{ font-family:'Body',sans-serif; font-weight:700; font-size:36px; letter-spacing:2px; color:#fff; }}
+.ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:30px; letter-spacing:1.6px; color:rgba(255,255,255,0.88); }}
 
 /* ---- hero ---- */
 .hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:center; justify-content:center; padding-bottom:{SAFE+10}px; }}
@@ -259,11 +259,15 @@ body {{ display:flex; justify-content:center; align-items:center; }}
              filter:drop-shadow(0 46px 54px rgba(0,0,0,0.62)); }}
 
 /* ---- consumables column ---- */
-.cons-top {{ display:flex; align-items:center; justify-content:center; gap:34px; }}
-.cons-top img.logo {{ height:120px; filter:brightness(0) invert(1); }}
-.cons-top img.qr {{ width:132px; height:132px; background:#fff; padding:9px; border-radius:6px; }}
+.cons-top {{
+  display:flex; align-items:center; justify-content:center; gap:38px;
+  background:#FFFFFF; border-radius:10px; padding:30px 42px;
+  box-shadow:0 22px 44px -16px rgba(0,0,0,0.55);
+}}
+.cons-top img.logo {{ height:210px; display:block; }}
+.cons-top img.qr {{ width:186px; height:186px; background:#fff; display:block; }}
 .cons-title {{
-  font-family:'Display',sans-serif; font-weight:700; font-size:76px; letter-spacing:-0.5px;
+  font-family:'Display',sans-serif; font-weight:700; font-size:82px; letter-spacing:-0.5px;
   margin-top:44px; text-align:center; color:#fff;
 }}
 .cons-title span {{ color:#C9A227; }}
@@ -278,8 +282,8 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   padding-bottom:{SAFE+10}px;
 }}
 .cons-card {{
-  background:linear-gradient(180deg,rgba(255,255,255,0.06) 0%,rgba(255,255,255,0.022) 100%);
-  border:1px solid rgba(255,255,255,0.12); border-radius:6px;
+  background:linear-gradient(180deg,rgba(6,12,18,0.40) 0%,rgba(6,12,18,0.26) 100%);
+  border:1px solid rgba(255,255,255,0.28); border-radius:6px;
   box-shadow:0 22px 46px -20px rgba(0,0,0,0.85);
   padding:30px 18px 22px;
   display:flex; flex-direction:column; align-items:center;
@@ -293,7 +297,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
              filter:drop-shadow(0 20px 24px rgba(0,0,0,0.6)); }}
 .clab {{
   margin-top:18px; font-family:'Body',sans-serif; font-weight:700;
-  font-size:21px; letter-spacing:2.4px; color:#E4EBF0; text-align:center; line-height:1.3;
+  font-size:34px; letter-spacing:2.6px; color:#F2F7FA; text-align:center; line-height:1.3;
 }}
 '''
 
