@@ -46,6 +46,9 @@ mm4_hero = b64('mm4_hero.png')
 mm2_hero = b64('mm2_hero.png')
 matsui_logo = b64('../logo_full.png')
 qr = b64('qr_clean.png')
+INK_FLOW = ('<div class="bg-flow" style="background-image:url(data:image/png;base64,'
+            + b64('inkflow.png') + ')"></div>')
+
 PROD = {k: b64(f'prod_{k}.png') for k in
         ['cmykw','jetting','cleaner','powder','paper_film','pet_film']}
 
@@ -113,13 +116,16 @@ def cons_cards():
 
 # The background lives in its own absolutely-positioned layer so it can be
 # rendered, swapped or suppressed independently of the content.
-BG_HTML = '''
+BG_HTML = f'''
   <div class="bg">
     <div class="bg-base"></div>
     <div class="bg-p bg-p1"></div>
     <div class="bg-p bg-p2"></div>
     <div class="bg-p bg-p3"></div>
-    <div class="bg-grain"></div>
+    {INK_FLOW}
+    <div class="bg-weave"></div>
+    <div class="bg-halftone"></div>
+    <div class="bg-sheen"></div>
     <div class="bg-vig"></div>
     <div class="bg-rule"></div>
   </div>'''
@@ -135,7 +141,7 @@ BG_CSS = f'''
   background:
     radial-gradient(ellipse 74% 56% at 46% 30%, rgba(120,255,245,0.30) 0%, rgba(120,255,245,0) 62%),
     radial-gradient(ellipse 64% 48% at 8% 96%, rgba(70,235,215,0.34) 0%, rgba(70,235,215,0) 64%),
-    linear-gradient(168deg,#062B3C 0%,#0C6E88 40%,#14A7BE 72%,#3FD3DC 100%);
+    linear-gradient(170deg,#02141F 0%,#053E54 30%,#0A7A92 62%,#12ADC2 86%,#2ACFDA 100%);
   clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
 }}
 /* MM2 — magenta / violet */
@@ -144,7 +150,7 @@ BG_CSS = f'''
   background:
     radial-gradient(ellipse 72% 54% at 54% 28%, rgba(255,110,220,0.30) 0%, rgba(255,110,220,0) 62%),
     radial-gradient(ellipse 64% 48% at 90% 96%, rgba(190,70,255,0.32) 0%, rgba(190,70,255,0) 64%),
-    linear-gradient(168deg,#26063F 0%,#6D169E 40%,#B227B4 72%,#E8479F 100%);
+    linear-gradient(170deg,#150329 0%,#3F0B69 30%,#8A19A8 62%,#C028B0 86%,#E63F9E 100%);
   clip-path: polygon(12% 0, 100% 0, 88% 100%, 0% 100%);
 }}
 /* consumables — warm gold */
@@ -152,14 +158,36 @@ BG_CSS = f'''
   left:66%; right:0; width:34%;
   background:
     radial-gradient(ellipse 72% 54% at 56% 28%, rgba(255,225,130,0.26) 0%, rgba(255,225,130,0) 62%),
-    linear-gradient(168deg,#2C1D08 0%,#7A5711 40%,#A87C22 72%,#CFA53E 100%);
+    linear-gradient(170deg,#150E03 0%,#3E2C08 30%,#7A5713 62%,#A87C22 86%,#C99A34 100%);
   clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
 }}
 
-.bg-grain {{
+/* woven cloth: warp and weft crossing, the substrate the ink prints on */
+.bg-weave {{
+  position:absolute; inset:0; mix-blend-mode:overlay; opacity:0.5;
+  background-image:
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.10) 0 2px, rgba(0,0,0,0.07) 2px 5px),
+    repeating-linear-gradient(0deg,  rgba(255,255,255,0.08) 0 2px, rgba(0,0,0,0.06) 2px 5px);
+}}
+/* halftone: the screen-print reference, fading in from the edges */
+.bg-halftone {{
+  position:absolute; inset:0; opacity:0.5;
+  background-image: radial-gradient(rgba(255,255,255,0.16) 2.4px, transparent 2.6px);
+  background-size: 30px 30px;
+  -webkit-mask-image: radial-gradient(ellipse 66% 60% at 50% 50%, transparent 42%, #000 100%);
+  mask-image: radial-gradient(ellipse 66% 60% at 50% 50%, transparent 42%, #000 100%);
+}}
+/* a slow diagonal sheen, like light across satin */
+.bg-sheen {{
+  position:absolute; inset:0; mix-blend-mode:screen; opacity:0.30;
+  background:linear-gradient(104deg,
+    rgba(255,255,255,0) 34%, rgba(255,255,255,0.16) 47%,
+    rgba(255,255,255,0.04) 54%, rgba(255,255,255,0) 66%);
+}}
+.bg-flow {{
   position:absolute; inset:0;
-  background-image: radial-gradient(rgba(255,255,255,0.05) 2px, transparent 2.2px);
-  background-size: 34px 34px;
+  background-size:100% 100%; background-repeat:no-repeat;
+  opacity:0.9;
 }}
 .bg-vig {{
   position:absolute; inset:0;
@@ -260,12 +288,13 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 
 /* ---- consumables column ---- */
 .cons-top {{
-  display:flex; align-items:center; justify-content:center; gap:38px;
-  background:#FFFFFF; border-radius:10px; padding:30px 42px;
-  box-shadow:0 22px 44px -16px rgba(0,0,0,0.55);
+  display:flex; align-items:center; justify-content:center; gap:46px;
 }}
-.cons-top img.logo {{ height:210px; display:block; }}
-.cons-top img.qr {{ width:186px; height:186px; background:#fff; display:block; }}
+.cons-top img.logo {{ height:350px; display:block;
+  filter:drop-shadow(0 10px 26px rgba(0,0,0,0.55)); }}
+.cons-top img.qr {{ width:200px; height:200px; background:#fff;
+  padding:10px; border-radius:6px; display:block;
+  box-shadow:0 10px 26px rgba(0,0,0,0.45); }}
 .cons-title {{
   font-family:'Display',sans-serif; font-weight:700; font-size:82px; letter-spacing:-0.5px;
   margin-top:44px; text-align:center; color:#fff;

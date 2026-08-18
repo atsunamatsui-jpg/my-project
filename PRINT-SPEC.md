@@ -23,8 +23,7 @@ Artwork is supplied at **quarter scale, 300 DPI** — a 61 × 31 in sheet.
 | File | Use |
 |---|---|
 | `matsui-banner-20x10-300dpi.eps` | **Send this to the printer.** Composite, with bleed. |
-| `matsui-banner-20x10-300dpi.png` | Same artwork as PNG, if EPS is not wanted. |
-| `...-300dpi-BACKGROUND.eps` / `.png` | Background layer only. |
+| `...-300dpi-BACKGROUND.eps` | Background layer only. |
 | `...-300dpi-ARTWORK.eps` | Content layer only (ground baked in — EPS cannot hold alpha). |
 | `...-300dpi-artwork.png` | Content layer on **true transparency** — use this one to drop the artwork over a different background. |
 | `matsui-banner-20x10-PROOF-guides.png` | Proof only. Shows bleed / trim / safe lines. **Do not print.** |
@@ -55,3 +54,14 @@ take them without changes.
   outlines that are hard to separate from a white background) and they can be
   swapped in.
 - **"Shishine gloss"** in the G600 copy looks like a typo; left as supplied.
+
+## Regenerating
+
+`matsui-banner-20x10-build.py` rebuilds every output. It takes a layer mode
+(`bg`, `fg`, `all`) and an optional `--guides` flag for the proof. Bleed and
+safe margin are constants at the top of the file.
+
+Full-size PNG copies of the composite and background layers are **not**
+committed -- each is ~95 MB and duplicates its EPS counterpart. Rebuild them
+from the script if a printer asks for PNG rather than EPS. The artwork PNG
+*is* committed, because it is the only file carrying real transparency.
