@@ -49,10 +49,12 @@ take them without changes.
 
 ## Known gaps
 
-- **MM4 / MM2 wordmarks are typeset**, not the official logo art. Supply the
-  logo files (transparent PNG or SVG preferred — the lockups use white
-  outlines that are hard to separate from a white background) and they can be
-  swapped in.
+- **MM2 lockup carries a generated white keyline.** The supplied MM4 art has
+  a white keyline baked in and holds on the dark ground; the supplied MM2 art
+  is black with no keyline and was effectively invisible there. A matching
+  keyline was generated so the pair reads as one system. **If Matsui has an
+  official reversed / knockout MM2 for dark backgrounds, use it instead** —
+  drop it in as `mm2_logo.png` and rebuild.
 - **"Shishine gloss"** in the G600 copy looks like a typo; left as supplied.
 
 ## Regenerating

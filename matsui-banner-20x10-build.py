@@ -46,8 +46,12 @@ mm4_hero = b64('mm4_hero.png')
 mm2_hero = b64('mm2_hero.png')
 matsui_logo = b64('../logo_full.png')
 qr = b64('qr_clean.png')
-INK_FLOW = ('<div class="bg-flow" style="background-image:url(data:image/png;base64,'
-            + b64('inkflow.png') + ')"></div>')
+# Official lockups. Each already contains the CMYK droplets, the wordmark and
+# the "BY MATSUI INTERNATIONAL" line, so they replace the whole typeset block.
+mm4_logo = b64('mm4_logo.png')
+mm2_logo = b64('mm2_logo.png')
+MESH = ('<div class="bg-mesh" style="background-image:url(data:image/png;base64,'
+        + b64('mesh.png') + ')"></div>')
 
 PROD = {k: b64(f'prod_{k}.png') for k in
         ['cmykw','jetting','cleaner','powder','paper_film','pet_film']}
@@ -119,10 +123,8 @@ def cons_cards():
 BG_HTML = f'''
   <div class="bg">
     <div class="bg-base"></div>
-    <div class="bg-p bg-p1"></div>
-    <div class="bg-p bg-p2"></div>
-    <div class="bg-p bg-p3"></div>
-    {INK_FLOW}
+    {MESH}
+    <div class="bg-scrim"></div>
     <div class="bg-weave"></div>
     <div class="bg-halftone"></div>
     <div class="bg-sheen"></div>
@@ -132,35 +134,15 @@ BG_HTML = f'''
 
 BG_CSS = f'''
 .bg {{ position:absolute; inset:0; z-index:0; }}
-.bg-base {{ position:absolute; inset:0; background:#0B2430; }}
+.bg-base {{ position:absolute; inset:0; background:#0A0E2A; }}
 
-.bg-p {{ position:absolute; top:0; bottom:0; }}
+
 /* MM4 — cool teal */
-.bg-p1 {{
-  left:0; width:38%;
-  background:
-    radial-gradient(ellipse 74% 56% at 46% 30%, rgba(120,255,245,0.30) 0%, rgba(120,255,245,0) 62%),
-    radial-gradient(ellipse 64% 48% at 8% 96%, rgba(70,235,215,0.34) 0%, rgba(70,235,215,0) 64%),
-    linear-gradient(170deg,#02141F 0%,#053E54 30%,#0A7A92 62%,#12ADC2 86%,#2ACFDA 100%);
-  clip-path: polygon(0 0, 100% 0, 88% 100%, 0% 100%);
-}}
+
 /* MM2 — magenta / violet */
-.bg-p2 {{
-  left:32%; width:40%;
-  background:
-    radial-gradient(ellipse 72% 54% at 54% 28%, rgba(255,110,220,0.30) 0%, rgba(255,110,220,0) 62%),
-    radial-gradient(ellipse 64% 48% at 90% 96%, rgba(190,70,255,0.32) 0%, rgba(190,70,255,0) 64%),
-    linear-gradient(170deg,#150329 0%,#3F0B69 30%,#8A19A8 62%,#C028B0 86%,#E63F9E 100%);
-  clip-path: polygon(12% 0, 100% 0, 88% 100%, 0% 100%);
-}}
+
 /* consumables — warm gold */
-.bg-p3 {{
-  left:66%; right:0; width:34%;
-  background:
-    radial-gradient(ellipse 72% 54% at 56% 28%, rgba(255,225,130,0.26) 0%, rgba(255,225,130,0) 62%),
-    linear-gradient(170deg,#150E03 0%,#3E2C08 30%,#7A5713 62%,#A87C22 86%,#C99A34 100%);
-  clip-path: polygon(12% 0, 100% 0, 100% 100%, 0% 100%);
-}}
+
 
 /* woven cloth: warp and weft crossing, the substrate the ink prints on */
 .bg-weave {{
@@ -184,16 +166,25 @@ BG_CSS = f'''
     rgba(255,255,255,0) 34%, rgba(255,255,255,0.16) 47%,
     rgba(255,255,255,0.04) 54%, rgba(255,255,255,0) 66%);
 }}
-.bg-flow {{
+.bg-mesh {{
   position:absolute; inset:0;
   background-size:100% 100%; background-repeat:no-repeat;
-  opacity:0.9;
+}}
+/* Holds quiet ground under the headlines: heaviest at the top where type
+   sits, lifting through the middle so the mesh stays vivid behind the
+   machines. */
+.bg-scrim {{
+  position:absolute; inset:0;
+  background:linear-gradient(180deg,
+    rgba(6,9,26,0.88) 0%, rgba(6,9,26,0.74) 18%,
+    rgba(6,9,26,0.34) 42%, rgba(6,9,26,0.10) 70%,
+    rgba(6,9,26,0.42) 100%);
 }}
 .bg-vig {{
   position:absolute; inset:0;
   background:radial-gradient(ellipse 76% 66% at 50% 46%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.32) 100%);
 }}
-.bg-p2::before, .bg-p3::before {{
+.bg-unused-seam {{
   content:""; position:absolute; top:0; bottom:0; left:0; width:3px;
   background:linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.42) 45%, rgba(255,255,255,0) 100%);
   transform:skewX(-6.8deg); transform-origin:top;
@@ -245,7 +236,12 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 
 /* ---- headline ---- */
-.hl {{ text-align:center; margin-top:26px; }}
+.lockup {{ display:block; height:auto; margin:0 auto;
+  filter:drop-shadow(0 12px 28px rgba(0,0,0,0.55)); }}
+.lockup-mm4 {{ width:96%; max-width:2050px; }}
+.lockup-mm2 {{ width:88%; max-width:1750px; margin-top:22px; }}
+
+.hl {{ text-align:center; margin-top:40px; }}
 .hl .main {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
   font-size:112px; letter-spacing:-2px; line-height:1;
@@ -334,12 +330,8 @@ CONTENT_HTML = f'''
   <div class="content">
 
     <div class="col col-mm4">
-      <div class="brand">
-        {droplets()}
-        <div class="name">MM4 DIGITAL</div>
-        <div class="sub">DTF HYBRID POWDER / POWDERLESS</div>
-        <div class="sub2">BY MATSUI INTERNATIONAL</div>
-      </div>
+      <img class="lockup lockup-mm4" src="data:image/png;base64,{mm4_logo}"
+           alt="MM4 DIGITAL — DTF Hybrid Powder / Powderless by Matsui International"/>
       <div class="hl">
         <span class="main">HYBRID</span>
         <span class="sub">Printable by Conventional Methods!<br/>OEKO-TEX Application Pending</span>
@@ -349,11 +341,8 @@ CONTENT_HTML = f'''
     </div>
 
     <div class="col col-mm2">
-      <div class="brand">
-        {droplets()}
-        <div class="name">MM2 DIGITAL</div>
-        <div class="sub2">BY MATSUI INTERNATIONAL</div>
-      </div>
+      <img class="lockup lockup-mm2" src="data:image/png;base64,{mm2_logo}"
+           alt="MM2 DIGITAL by Matsui International"/>
       <div class="rainbow">
         <span class="r1">VIBRANT COLORS</span>
         <span class="r2">SHARP REPRODUCTION</span>
