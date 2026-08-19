@@ -12,14 +12,14 @@ W, H = 6100, 3100
 # Palette read off the inspiration: aqua/mint on the left, violet/magenta
 # through the middle, warm coral at the right, all on deep indigo.
 GRADS = {
-    'aqua':    ('#22D3EE', '#5EEAD4', '#A3E635'),
-    'teal':    ('#0EA5E9', '#22D3EE', '#67E8F9'),
-    'blue':    ('#2563EB', '#6366F1', '#22D3EE'),
-    'violet':  ('#7C3AED', '#A855F7', '#38BDF8'),
-    'magenta': ('#DB2777', '#C026D3', '#7C3AED'),
-    'pink':    ('#F472B6', '#E879F9', '#818CF8'),
-    'coral':   ('#FB7185', '#FB923C', '#FBBF24'),
-    'amber':   ('#F59E0B', '#FB923C', '#F472B6'),
+    'aqua':    ('#06E6FF', '#34F5C8', '#B6F542'),
+    'teal':    ('#0091FF', '#00D9F5', '#5CF2FF'),
+    'blue':    ('#1D4FFF', '#6D4DFF', '#00D9F5'),
+    'violet':  ('#8B2BFF', '#C13AFF', '#28B6FF'),
+    'magenta': ('#FF1478', '#E211E8', '#8B2BFF'),
+    'pink':    ('#FF5CB8', '#F55CFF', '#7C86FF'),
+    'coral':   ('#FF4D6D', '#FF8A1F', '#FFD119'),
+    'amber':   ('#FFA800', '#FF7A1F', '#FF5CB8'),
 }
 
 
@@ -45,20 +45,21 @@ def blob_path(cx, cy, rx, ry, seed, points=9, jitter=0.30):
 # (cx, cy, rx, ry, palette, angle, opacity, blur, seed)
 BLOBS = [
     # left zone -- MM4, cool
-    (-150,  400, 1250,  820, 'teal',    25, 0.55,  90, 101),
-    ( 620, 1250, 1000,  760, 'aqua',   200, 0.42, 175, 102),
-    ( 250, 2850, 1150,  700, 'blue',    -8, 0.46, 148, 103),
-    (1500,  250,  760,  520, 'aqua',    70, 0.32, 162, 104),
+    (-150,  400, 1250,  820, 'teal',    25, 0.78,  90, 101),
+    ( 620, 1250, 1000,  760, 'aqua',   200, 0.60, 175, 102),
+    ( 250, 2850, 1150,  700, 'blue',    -8, 0.65, 148, 103),
+    (1500,  250,  760,  520, 'aqua',    70, 0.45, 162, 104),
     # middle zone -- MM2, hot
-    (2450, 1500, 1150,  900, 'violet',  15, 0.49, 162, 201),
-    (3150,  350, 1000,  680, 'magenta',150, 0.49, 135, 202),
-    (2850, 2900, 1050,  660, 'pink',   -20, 0.41, 162, 203),
-    (3750, 1750,  880,  700, 'violet', 100, 0.36, 189, 204),
+    (2450, 1500, 1150,  900, 'violet',  15, 0.70, 162, 201),
+    (3150,  350, 1000,  680, 'magenta',150, 0.70, 135, 202),
+    (2850, 2900, 1050,  660, 'pink',   -20, 0.58, 162, 203),
+    (3750, 1750,  880,  700, 'violet', 100, 0.51, 189, 204),
     # right zone -- consumables, warm
-    (5250,  450, 1000,  700, 'coral',   35, 0.48, 135, 301),
-    (5650, 1900,  950,  780, 'amber',  190, 0.39, 162, 302),
-    (4750, 2850,  900,  600, 'magenta', 10, 0.35, 175, 303),
-    (6150, 1150,  700,  620, 'pink',    60, 0.32, 162, 304),
+    (5300, 1500, 1050,  720, 'coral',   35, 0.66, 148, 301),
+    (5150,  280, 1150,  620, 'violet', 200, 0.42, 175, 305),
+    (5750, 2350,  980,  760, 'amber',  190, 0.60, 162, 302),
+    (4750, 2850,  900,  600, 'magenta', 10, 0.50, 175, 303),
+    (6150, 1150,  700,  620, 'pink',    60, 0.45, 162, 304),
 ]
 
 
@@ -86,7 +87,7 @@ def build():
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
             f'width="{W}" height="{H}">'
             f'<defs>{"".join(defs)}</defs>'
-            f'<rect width="{W}" height="{H}" fill="#0A0E2A"/>'
+            f'<rect width="{W}" height="{H}" fill="#131A4F"/>'
             f'{"".join(body)}</svg>')
 
 

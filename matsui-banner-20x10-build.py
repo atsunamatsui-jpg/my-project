@@ -176,9 +176,9 @@ BG_CSS = f'''
 .bg-scrim {{
   position:absolute; inset:0;
   background:linear-gradient(180deg,
-    rgba(6,9,26,0.88) 0%, rgba(6,9,26,0.74) 18%,
-    rgba(6,9,26,0.34) 42%, rgba(6,9,26,0.10) 70%,
-    rgba(6,9,26,0.42) 100%);
+    rgba(6,9,26,0.74) 0%, rgba(6,9,26,0.56) 18%,
+    rgba(6,9,26,0.20) 44%, rgba(6,9,26,0.02) 72%,
+    rgba(6,9,26,0.26) 100%);
 }}
 .bg-vig {{
   position:absolute; inset:0;
@@ -286,9 +286,9 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .cons-top {{
   display:flex; align-items:center; justify-content:center; gap:46px;
 }}
-.cons-top img.logo {{ height:350px; display:block;
+.cons-top img.logo {{ height:460px; display:block;
   filter:drop-shadow(0 10px 26px rgba(0,0,0,0.55)); }}
-.cons-top img.qr {{ width:200px; height:200px; background:#fff;
+.cons-top img.qr {{ width:230px; height:230px; background:#fff;
   padding:10px; border-radius:6px; display:block;
   box-shadow:0 10px 26px rgba(0,0,0,0.45); }}
 .cons-title {{
