@@ -8,12 +8,38 @@
 | **With bleed** | 244 × 124 | — |
 | **Bleed** | 2 in all sides | — |
 | **Safe margin** | 4 in inside trim | — |
+| **Content band** | top 80 in | top 6 ft 8 in |
+| **Clear zone** | bottom 40 in | bottom 3 ft 4 in |
 
 No printer spec was supplied, so these are standard vinyl-banner values:
 2 in bleed clears the hem, and the 4 in safe margin keeps all type off the
 hem and grommet line. **If your printer specifies different values, send them
 and the files can be rebuilt — the bleed and safe margin are parameters in
 `matsui-banner-20x10-build.py`, not baked into the artwork.**
+
+## Clear zone — bottom third
+
+All artwork is held in the **top two thirds** (top 80 in). The **bottom 40 in
+carries background gradient only** — no logos, machines, product shots or
+type — because on a booth that band sits behind tables, below eye level and
+behind foot traffic.
+
+This is enforced, not just laid out: the content box is clipped at the 80 in
+line, so the artwork layer contains **zero** pixels below it, drop-shadow
+tails included. The background gradient still runs the full height and full
+bleed, so the banner reads as one piece.
+
+The gradient was re-tuned for this: the blue → violet → pink → orange
+progression is compressed into the content band so the luminous part of the
+field sits behind the artwork, and the lower third resolves into deeper
+indigo and plum. It holds the same saturation as the rest of the sheet
+(0.56) at about 76% of the value, so it stays coloured ink rather than
+turning into a dark margin.
+
+The proof (`...-PROOF-guides.png`) marks the line in green.
+
+The split is a constant — `CONTENT_H` in the build script. If the booth
+setup changes and you want content lower, change that one value and rebuild.
 
 ## Files
 

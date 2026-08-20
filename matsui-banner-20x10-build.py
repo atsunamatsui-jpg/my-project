@@ -23,6 +23,16 @@ BLEED = BLEED_IN * PX_PER_IN       # 50 px
 SAFE  = SAFE_IN * PX_PER_IN        # 100 px
 W, H = TRIM_W + BLEED*2, TRIM_H + BLEED*2   # 6100 x 3100 = 244 x 124 in
 
+# On a booth the lower part of a 10ft-tall banner sits behind tables, below
+# eye level and often blocked by people, so all content is held in the top
+# two thirds. The bottom third carries background only -- nothing there is
+# load-bearing if it is never seen.
+CONTENT_H = TRIM_H * 2 // 3        # 2000 px = 80 in
+# Bottom padding has to clear the deepest drop-shadow as well as the artwork,
+# or the shadows feather down past the line into the zone that must stay clean.
+BOT_PAD = 58                       # content no longer runs to the hem, so the
+                                   # 4in safe margin is only needed up top
+
 SHOW_GUIDES = '--guides' in sys.argv
 
 def b64(p):
@@ -177,7 +187,7 @@ BG_CSS = f'''
 }}
 .bg-vig {{
   position:absolute; inset:0;
-  background:radial-gradient(ellipse 76% 66% at 50% 46%, rgba(0,0,0,0) 62%, rgba(0,0,0,0.32) 100%);
+  background:radial-gradient(ellipse 78% 62% at 50% 33%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.30) 100%);
 }}
 .bg-unused-seam {{
   content:""; position:absolute; top:0; bottom:0; left:0; width:3px;
@@ -202,20 +212,30 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 
 .unify {{
   position:absolute; inset:0; z-index:3; pointer-events:none;
-  background:radial-gradient(ellipse 92% 86% at 50% 46%,
+  background:radial-gradient(ellipse 92% 78% at 50% 33%,
     rgba(150,140,210,0.06) 0%, rgba(60,40,110,0.10) 62%, rgba(10,6,24,0.22) 100%);
   mix-blend-mode:soft-light;
+  /* This wash exists to tie the composited subjects to the ground. There are
+     no subjects in the lower third, so it fades out before the clear zone --
+     that leaves the artwork layer genuinely empty there, which is what makes
+     the background swappable without a ghost tint riding along. */
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 66%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 66%);
 }}
 
 .content {{
   position:absolute; z-index:2; display:flex;
-  top:{BLEED}px; left:{BLEED}px; width:{TRIM_W}px; height:{TRIM_H}px;
+  top:{BLEED}px; left:{BLEED}px; width:{TRIM_W}px; height:{CONTENT_H}px;
+  /* hard guarantee that nothing -- including the tail of a blurred shadow --
+     reaches the lower third. Padding already keeps the shadows clear, so the
+     clip only ever catches a few per cent of alpha. */
+  overflow:hidden;
 }}
 
 .col {{ position:relative; display:flex; flex-direction:column; align-items:center; }}
-.col-mm4  {{ width:38%; padding:{SAFE+18}px 62px 0; }}
-.col-mm2  {{ width:34%; padding:{SAFE+18}px 52px 0; }}
-.col-cons {{ width:28%; padding:{SAFE+18}px {SAFE+10}px 0; }}
+.col-mm4  {{ width:38%; padding:{SAFE+6}px 62px 0; }}
+.col-mm2  {{ width:34%; padding:{SAFE+6}px 52px 0; }}
+.col-cons {{ width:28%; padding:{SAFE+6}px {SAFE+10}px 0; }}
 
 /* ---- brandmark ---- */
 .droprow {{ display:inline-flex; align-items:center; }}
@@ -240,10 +260,10 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 /* ---- headline ---- */
 .lockup {{ display:block; height:auto; margin:0 auto;
   filter:drop-shadow(0 12px 28px rgba(0,0,0,0.55)); }}
-.lockup-mm4 {{ width:96%; max-width:2050px; }}
-.lockup-mm2 {{ width:88%; max-width:1750px; margin-top:22px; }}
+.lockup-mm4 {{ width:96%; max-width:1816px; }}
+.lockup-mm2 {{ width:88%; max-width:1568px; margin-top:34px; }}
 
-.hl {{ text-align:center; margin-top:40px; }}
+.hl {{ text-align:center; margin-top:62px; }}
 .hl .main {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
   font-size:112px; letter-spacing:-2px; line-height:1;
@@ -252,9 +272,9 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 .hl .sub {{
   display:block; font-family:'Body',sans-serif; font-weight:400; font-size:40px;
-  letter-spacing:1.8px; color:rgba(255,255,255,0.74); margin-top:22px; line-height:1.5;
+  letter-spacing:1.8px; color:rgba(255,255,255,0.74); margin-top:20px; line-height:1.5;
 }}
-.rainbow {{ text-align:center; margin-top:26px; }}
+.rainbow {{ text-align:center; margin-top:52px; }}
 .rainbow span {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
   font-size:68px; letter-spacing:0.5px; line-height:1.3;
@@ -264,7 +284,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .rainbow .r3 {{ color:#FFE3F4; }}
 
 /* ---- feature chips ---- */
-.feats {{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:34px; }}
+.feats {{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:58px; }}
 .feat {{
   display:flex; align-items:center; gap:20px;
   background:rgba(6,12,18,0.34);
@@ -280,9 +300,9 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:30px; letter-spacing:1.6px; color:rgba(255,255,255,0.88); }}
 
 /* ---- hero ---- */
-.hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:center; justify-content:center; padding-bottom:{SAFE+10}px; }}
+.hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:flex-end; justify-content:center; padding-bottom:{BOT_PAD}px; }}
 .hero img {{ width:104%; max-width:none; height:auto; max-height:100%; object-fit:contain; display:block;
-             filter:drop-shadow(0 46px 54px rgba(0,0,0,0.62)); }}
+             filter:drop-shadow(0 24px 30px rgba(0,0,0,0.62)); }}
 
 /* ---- consumables column ---- */
 .cons-top {{
@@ -295,18 +315,18 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   box-shadow:0 10px 26px rgba(0,0,0,0.45); }}
 .cons-title {{
   font-family:'Display',sans-serif; font-weight:700; font-size:82px; letter-spacing:-0.5px;
-  margin-top:44px; text-align:center; color:#fff;
+  margin-top:30px; text-align:center; color:#fff;
 }}
 .cons-title span {{ color:#C9A227; }}
 .cons-rule {{
-  width:210px; height:1px; margin:26px auto 40px;
+  width:210px; height:1px; margin:20px auto 28px;
   background:linear-gradient(90deg,rgba(201,162,39,0) 0%,#C9A227 50%,rgba(201,162,39,0) 100%);
 }}
 .cons-grid {{
   flex:1; min-height:0; width:100%;
   display:grid; grid-template-columns:repeat(6,1fr);
   grid-auto-rows:1fr; gap:24px;
-  padding-bottom:{SAFE+10}px;
+  padding-bottom:{BOT_PAD}px;
 }}
 .cons-card {{
   background:linear-gradient(180deg,rgba(6,12,18,0.40) 0%,rgba(6,12,18,0.26) 100%);
@@ -372,6 +392,8 @@ GUIDE_HTML = f'''
     <div class="g-tag g-tag-trim">TRIM 240 x 120 in</div>
     <div class="g-tag g-tag-bleed">BLEED {BLEED_IN}in — 244 x 124 in</div>
     <div class="g-tag g-tag-safe">SAFE {SAFE_IN}in</div>
+    <div class="g-clear"></div>
+    <div class="g-tag g-tag-clear">CLEAR ZONE — bottom 1/3 (40in) background only</div>
   </div>'''
 
 GUIDE_CSS = f'''
@@ -382,6 +404,11 @@ GUIDE_CSS = f'''
   width:{TRIM_W-SAFE*2}px; height:{TRIM_H-SAFE*2}px; outline:4px dashed #FFD400; }}
 .g-tag {{ position:absolute; font-family:'Body',sans-serif; font-weight:700;
   font-size:34px; letter-spacing:2px; padding:10px 18px; border-radius:4px; }}
+/* the line content is held above -- everything below is background only */
+.g-clear {{ position:absolute; left:{BLEED}px; width:{TRIM_W}px;
+  top:{BLEED+CONTENT_H}px; height:0; outline:4px dashed #7CFF6B; }}
+.g-tag-clear {{ top:{BLEED+CONTENT_H+16}px; left:{BLEED+14}px;
+  background:#7CFF6B; color:#0B2400; }}
 .g-tag-bleed {{ top:8px; left:12px; background:#FF2D8E; color:#fff; }}
 .g-tag-trim  {{ top:{BLEED+14}px; left:{BLEED+14}px; background:#00E5FF; color:#00232B; }}
 .g-tag-safe  {{ top:{BLEED+SAFE+14}px; left:{BLEED+SAFE+14}px; background:#FFD400; color:#2B2200; }}
