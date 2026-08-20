@@ -33,6 +33,12 @@ CONTENT_H = TRIM_H * 2 // 3        # 2000 px = 80 in
 BOT_PAD = 58                       # content no longer runs to the hem, so the
                                    # 4in safe margin is only needed up top
 
+# Each column is sized to hug its own widest element, so the space between
+# the three blocks is this one number rather than an accident of how the
+# percentages happened to divide. Set so the gaps and the outer margins come
+# out equal -- the group reads as three related blocks, not three islands.
+COL_GAP = 240
+
 SHOW_GUIDES = '--guides' in sys.argv
 
 def b64(p):
@@ -226,6 +232,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .content {{
   position:absolute; z-index:2; display:flex;
   top:{BLEED}px; left:{BLEED}px; width:{TRIM_W}px; height:{CONTENT_H}px;
+  justify-content:center; gap:{COL_GAP}px;
   /* hard guarantee that nothing -- including the tail of a blurred shadow --
      reaches the lower third. Padding already keeps the shadows clear, so the
      clip only ever catches a few per cent of alpha. */
@@ -233,9 +240,9 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 
 .col {{ position:relative; display:flex; flex-direction:column; align-items:center; }}
-.col-mm4  {{ width:38%; padding:{SAFE+6}px 62px 0; }}
-.col-mm2  {{ width:34%; padding:{SAFE+6}px 52px 0; }}
-.col-cons {{ width:28%; padding:{SAFE+6}px {SAFE+10}px 0; }}
+.col-mm4  {{ width:1816px; padding:{SAFE+6}px 0 0; }}
+.col-mm2  {{ width:1568px; padding:{SAFE+6}px 0 0; }}
+.col-cons {{ width:1460px; padding:{SAFE+6}px 0 0; }}
 
 /* ---- brandmark ---- */
 .droprow {{ display:inline-flex; align-items:center; }}
@@ -260,8 +267,8 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 /* ---- headline ---- */
 .lockup {{ display:block; height:auto; margin:0 auto;
   filter:drop-shadow(0 12px 28px rgba(0,0,0,0.55)); }}
-.lockup-mm4 {{ width:96%; max-width:1816px; }}
-.lockup-mm2 {{ width:88%; max-width:1568px; margin-top:34px; }}
+.lockup-mm4 {{ width:100%; max-width:1816px; }}
+.lockup-mm2 {{ width:100%; max-width:1568px; margin-top:34px; }}
 
 .hl {{ text-align:center; margin-top:62px; }}
 .hl .main {{

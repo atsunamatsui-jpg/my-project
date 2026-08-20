@@ -41,6 +41,22 @@ The proof (`...-PROOF-guides.png`) marks the line in green.
 The split is a constant — `CONTENT_H` in the build script. If the booth
 setup changes and you want content lower, change that one value and rebuild.
 
+## Column spacing
+
+The three columns are sized to hug their own widest element and are separated
+by a single constant, `COL_GAP` (240 px = 9.6 in), with the group centred.
+Earlier the columns split the full width as percentages, which left 17–19 in
+between blocks; the gap is now a number you can set rather than a leftover.
+
+Because the machine photos are limited by the height of the content band, not
+by width, their image boxes were heavily letterboxed — so the columns could
+be brought in **without any artwork getting smaller**. Lockups, machines and
+consumable cards are all identical in size to the previous version.
+
+Outer margins land at about 13 in a side. Gaps and margins trade against each
+other one-for-one: the artwork totals about 194 in of the 240 in width, so
+tightening the gaps further widens the margins by the same amount.
+
 ## Files
 
 Artwork is supplied at **quarter scale, 300 DPI** — a 61 × 31 in sheet.
