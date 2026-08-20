@@ -176,7 +176,7 @@ BG_CSS = f'''
 .bg-scrim {{
   position:absolute; inset:0;
   background:linear-gradient(180deg,
-    rgba(6,9,26,0.74) 0%, rgba(6,9,26,0.56) 18%,
+    rgba(6,9,26,0.62) 0%, rgba(6,9,26,0.44) 18%,
     rgba(6,9,26,0.20) 44%, rgba(6,9,26,0.02) 72%,
     rgba(6,9,26,0.26) 100%);
 }}
@@ -203,6 +203,13 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .banner {{
   position:relative; width:{W}px; height:{H}px; overflow:hidden;
   font-family:'Body',sans-serif;
+}}
+
+.unify {{
+  position:absolute; inset:0; z-index:3; pointer-events:none;
+  background:radial-gradient(ellipse 92% 86% at 50% 46%,
+    rgba(90,150,205,0.10) 0%, rgba(30,60,110,0.16) 62%, rgba(10,20,44,0.30) 100%);
+  mix-blend-mode:soft-light;
 }}
 
 .content {{
@@ -390,6 +397,8 @@ if LAYER in ('bg', 'all'):
     body_parts.append(BG_HTML)
 if LAYER in ('fg', 'all'):
     body_parts.append(CONTENT_HTML)
+if LAYER in ('fg', 'all'):
+    body_parts.append('<div class="unify"></div>')
 if SHOW_GUIDES:
     body_parts.append(GUIDE_HTML)
 
