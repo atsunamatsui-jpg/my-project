@@ -1,0 +1,176 @@
+@import url("fonts.css");
+
+/* ── Matsui "Specialty Products" poster — shared styles ───────────────── */
+
+:root {
+  --ink: #0d3b34;          /* deep teal, headings + body */
+  --ink-soft: #2a6b62;
+  --pink: #ff2d78;         /* accent script + NEW chip */
+  --card: #ffffff;
+
+  --c-vintage: #ff2e63;
+  --c-pearl:   #1ec8e6;
+  --c-g600:    #f5a623;
+  --c-velvet:  #f97316;
+  --c-3d:      #c026d3;
+  --c-eco:     #6cc24a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Poppins", "Liberation Sans", sans-serif;
+  color: var(--ink);
+  background: #d9f5f2;
+  -webkit-font-smoothing: antialiased;
+}
+
+.poster {
+  position: relative;
+  width: 1500px;
+  height: 2000px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #eafcfa 0%, #d5f3ef 55%, #cdeff0 100%);
+}
+
+/* soft paint-splatter atmosphere */
+.blob {
+  position: absolute;
+  border-radius: 48% 52% 60% 40% / 55% 45% 58% 42%;
+  filter: blur(18px);
+  opacity: .55;
+}
+.blob.b1 { width: 420px; height: 380px; top: -90px;  right: -70px;  background: #cfe0f7; }
+.blob.b2 { width: 300px; height: 260px; top: 250px;  right: 90px;   background: #dcd4f5; opacity: .45; }
+.blob.b3 { width: 380px; height: 320px; top: 620px;  left: -120px;  background: #d4e7f7; opacity: .4; }
+.blob.b4 { width: 520px; height: 420px; bottom: -110px; left: -90px; background: #cfeecb; opacity: .45; }
+.blob.b5 { width: 460px; height: 360px; bottom: -120px; right: -80px; background: #dff0c9; opacity: .5; }
+.blob.b6 { width: 260px; height: 220px; top: 60px;   left: 220px;   background: #ffd6e8; opacity: .3; }
+
+.dots {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(rgba(13, 59, 52, .10) 1.4px, transparent 1.5px);
+  background-size: 26px 26px;
+  opacity: .35;
+}
+
+.content { position: relative; z-index: 2; }
+
+/* ── header ───────────────────────────────────────────────────────────── */
+
+.new-chip {
+  position: absolute;
+  top: 78px; left: 74px;
+  padding: 14px 34px;
+  background: var(--pink);
+  color: #fff;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: .22em;
+  border-radius: 14px 14px 14px 4px;
+  transform: rotate(-3deg);
+  box-shadow: 0 12px 26px rgba(255, 45, 120, .32);
+}
+
+.logo {
+  display: block;
+  margin: 0 auto;
+  padding-top: 50px;
+}
+
+.title {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+.title h1 {
+  font-size: 112px;
+  font-weight: 800;
+  letter-spacing: -.015em;
+  line-height: 1;
+  color: var(--ink);
+}
+.title .script {
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: 80px;
+  color: var(--pink);
+  transform: rotate(-6deg) translateY(14px);
+}
+
+/* ── cards ────────────────────────────────────────────────────────────── */
+
+.grid { display: grid; }
+
+.card {
+  position: relative;
+  background: var(--card);
+  border-radius: 22px;
+  box-shadow: 0 16px 34px rgba(13, 59, 52, .10);
+  overflow: hidden;
+}
+.card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 7px;
+  background: var(--accent);
+}
+
+.shot {
+  border-radius: 50%;
+  border: 5px solid var(--accent);
+  box-shadow: 0 0 22px var(--glow);
+  display: block;
+}
+
+.name {
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: .01em;
+}
+.sub {
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.badge {
+  display: inline-block;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .06em;
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.badge.dark { color: #ffffff; }
+
+/* ── footer ───────────────────────────────────────────────────────────── */
+
+.footer { text-align: center; }
+.footer .rule {
+  width: 72px; height: 4px;
+  margin: 0 auto 20px;
+  background: var(--pink);
+  border-radius: 2px;
+}
+.footer .tag {
+  font-size: 35px;
+  font-weight: 600;
+  letter-spacing: .24em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+}
+.swatches {
+  display: flex;
+  width: 470px;
+  margin: 30px auto 0;
+  height: 13px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.swatches i { flex: 1; }
