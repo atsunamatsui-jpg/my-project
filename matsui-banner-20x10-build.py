@@ -134,7 +134,7 @@ BG_HTML = f'''
 
 BG_CSS = f'''
 .bg {{ position:absolute; inset:0; z-index:0; }}
-.bg-base {{ position:absolute; inset:0; background:#0A0E2A; }}
+.bg-base {{ position:absolute; inset:0; background:#08060F; }}
 
 
 /* MM4 — cool teal */
@@ -176,9 +176,9 @@ BG_CSS = f'''
 .bg-scrim {{
   position:absolute; inset:0;
   background:linear-gradient(180deg,
-    rgba(6,9,26,0.62) 0%, rgba(6,9,26,0.44) 18%,
-    rgba(6,9,26,0.20) 44%, rgba(6,9,26,0.02) 72%,
-    rgba(6,9,26,0.26) 100%);
+    rgba(4,3,10,0.40) 0%, rgba(4,3,10,0.22) 20%,
+    rgba(4,3,10,0.04) 48%, rgba(4,3,10,0.00) 74%,
+    rgba(4,3,10,0.16) 100%);
 }}
 .bg-vig {{
   position:absolute; inset:0;
@@ -208,7 +208,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .unify {{
   position:absolute; inset:0; z-index:3; pointer-events:none;
   background:radial-gradient(ellipse 92% 86% at 50% 46%,
-    rgba(90,150,205,0.10) 0%, rgba(30,60,110,0.16) 62%, rgba(10,20,44,0.30) 100%);
+    rgba(150,140,210,0.06) 0%, rgba(60,40,110,0.10) 62%, rgba(10,6,24,0.22) 100%);
   mix-blend-mode:soft-light;
 }}
 
