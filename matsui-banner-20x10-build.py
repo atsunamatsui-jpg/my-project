@@ -289,7 +289,14 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   display:flex; align-items:center; justify-content:center; gap:46px;
 }}
 .cons-top img.logo {{ height:460px; display:block;
-  filter:drop-shadow(0 10px 26px rgba(0,0,0,0.55)); }}
+  /* Stacked drop-shadows follow the artwork's own alpha, so the glow hugs
+     the mark rather than boxing it. Two tight white passes lift it off the
+     gradient; the dark pass underneath keeps it anchored. */
+  filter:
+    drop-shadow(0 0 10px rgba(255,255,255,0.85))
+    drop-shadow(0 0 26px rgba(255,255,255,0.55))
+    drop-shadow(0 0 60px rgba(255,255,255,0.30))
+    drop-shadow(0 12px 30px rgba(0,0,0,0.45)); }}
 .cons-top img.qr {{ width:230px; height:230px; background:#fff;
   padding:10px; border-radius:6px; display:block;
   box-shadow:0 10px 26px rgba(0,0,0,0.45); }}
