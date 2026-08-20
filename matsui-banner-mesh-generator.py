@@ -1,98 +1,83 @@
-"""Iridescent liquid-gradient background, in the idiom of the supplied
-inspiration: vivid multi-hue blobs floating on a deep indigo ground.
+"""Continuous mesh gradient for the banner background.
 
-Each blob is an organic closed curve filled with a 3-stop gradient, so colour
-shifts *within* the shape rather than being a flat glow. Deterministic.
+Earlier versions stacked separate blurred blobs at differing opacities, which
+reads as blotchy: every overlap is a visible lump and every blob edge is a
+seam, no matter how much blur is applied.
+
+This instead solves one smooth colour field. Control points are placed across
+the canvas and every pixel is a normalised inverse-distance blend of all of
+them, so the result is continuous by construction -- there are no shapes, no
+edges and nothing to overlap. Computed small and resampled up, which
+guarantees smoothness, then dithered to keep large-format print from banding.
 """
-import math
-import random
+import numpy as np
+from PIL import Image, ImageFilter
 
 W, H = 6100, 3100
-
-# Palette read off the inspiration: aqua/mint on the left, violet/magenta
-# through the middle, warm coral at the right, all on deep indigo.
-GRADS = {
-    'sunset': ('#4E63D8', '#E0609F', '#FF8A3C'),
-    'ember':  ('#7B5CD6', '#F0568F', '#FF9A4A'),
-    'orchid': ('#5A6FD8', '#B06FD0', '#F07AA8'),
-    'coral':  ('#E0609F', '#FF7A5C', '#FFB877'),
-    'violet': ('#3F4FC8', '#8B5FE0', '#D678C8'),
-    'blush':  ('#9A6FE0', '#E39CC8', '#FFC7A8'),
-    'flame':  ('#8B5FE0', '#F0568F', '#FFA455'),
-    'azure':  ('#3A4AC0', '#6B7FE0', '#C489D8'),
-}
+CALC_W, CALC_H = 260, 132       # solved small; upsampling is what makes it smooth
 
 
-def blob_path(cx, cy, rx, ry, seed, points=9, jitter=0.30):
-    """A smooth organic closed curve -- liquid, not circular."""
-    r = random.Random(seed)
-    pts = []
-    for i in range(points):
-        a = 2 * math.pi * i / points
-        fx = 1 - jitter + r.random() * jitter * 2
-        fy = 1 - jitter + r.random() * jitter * 2
-        pts.append((cx + math.cos(a) * rx * fx, cy + math.sin(a) * ry * fy))
-    # close the ring with quadratics hung off the midpoints -> no corners
-    d = [f'M{(pts[-1][0]+pts[0][0])/2:.1f},{(pts[-1][1]+pts[0][1])/2:.1f}']
-    for i in range(len(pts)):
-        cur, nxt = pts[i], pts[(i + 1) % len(pts)]
-        mid = ((cur[0] + nxt[0]) / 2, (cur[1] + nxt[1]) / 2)
-        d.append(f'Q{cur[0]:.1f},{cur[1]:.1f} {mid[0]:.1f},{mid[1]:.1f}')
-    d.append('Z')
-    return ''.join(d)
+def hexrgb(h):
+    h = h.lstrip('#')
+    return np.array([int(h[i:i+2], 16) for i in (0, 2, 4)], float)
 
 
-# (cx, cy, rx, ry, palette, angle, opacity, blur, seed)
-BLOBS = [
-    # left zone -- MM4
-    (-280, 1500, 1180,  760, 'azure',   22, 0.96, 120, 101),
-    ( 780, 2350, 1020,  680, 'violet', 198, 0.92, 150, 102),
-    ( 180, 2950,  980,  560, 'orchid',  -8, 0.90, 140, 103),
-    (1560, 1150,  820,  540, 'ember',   66, 0.80, 155, 104),
-    # middle zone -- MM2
-    (2560, 2100, 1150,  760, 'ember',   16, 0.94, 155, 201),
-    (3320, 1250,  980,  620, 'violet', 148, 0.86, 145, 202),
-    (2980, 3000, 1050,  600, 'orchid', -18, 0.88, 160, 203),
-    (3980, 2350,  920,  660, 'flame',   96, 0.84, 170, 204),
-    # right zone -- consumables
-    (5320, 1950, 1080,  700, 'sunset',  34, 0.94, 150, 301),
-    (6080, 1150,  820,  560, 'violet', 198, 0.80, 160, 305),
-    (5720, 2900, 1020,  640, 'coral',  188, 0.90, 155, 302),
-    (4820, 3020,  900,  560, 'blush',    8, 0.84, 165, 303),
-    (6350, 2600,  760,  620, 'ember',   58, 0.82, 160, 304),
+# (x, y, colour) in normalised canvas space. Deep and cool at the top where
+# the headlines sit, warming and brightening down and to the right, following
+# the blue -> violet -> pink -> orange progression of the reference.
+POINTS = [
+    (0.00, 0.00, '#0B0A22'), (0.30, 0.00, '#141038'), (0.62, 0.00, '#171043'),
+    (0.86, 0.00, '#1B1147'), (1.00, 0.06, '#241456'),
+
+    (0.00, 0.34, '#2C3A9E'), (0.16, 0.52, '#4E63D8'), (0.03, 0.78, '#5E5BD6'),
+    (0.22, 0.95, '#7B5CD6'), (0.38, 0.66, '#7A5AD8'),
+
+    (0.44, 0.30, '#3B3A96'), (0.52, 0.86, '#B06FD0'), (0.62, 0.52, '#9A5FD8'),
+    (0.70, 0.95, '#E0609F'), (0.74, 0.28, '#4A3C9E'),
+
+    (0.84, 0.60, '#E86FA0'), (0.92, 0.92, '#FF8A5C'), (1.00, 0.44, '#C86FB8'),
+    (1.00, 0.74, '#FF9A6A'), (0.96, 0.16, '#3E2E86'),
 ]
+
+POWER = 2.15          # falloff sharpness: higher starts showing cells around points
+
+
+def solve():
+    px = np.array([p[0] for p in POINTS])
+    py = np.array([p[1] for p in POINTS])
+    cols = np.array([hexrgb(p[2]) for p in POINTS])
+
+    gx, gy = np.meshgrid(np.linspace(0, 1, CALC_W), np.linspace(0, 1, CALC_H))
+    # aspect-correct the distance metric or the field stretches horizontally
+    ar = W / H
+    dx = (gx[..., None] - px) * ar
+    dy = gy[..., None] - py
+    d2 = dx*dx + dy*dy + 1e-6
+
+    w = 1.0 / np.power(d2, POWER / 2.0)
+    w /= w.sum(axis=-1, keepdims=True)
+    field = np.einsum('hwp,pc->hwc', w, cols)
+    return np.clip(field, 0, 255)
 
 
 def build():
-    defs, body = [], []
-    for i, (cx, cy, rx, ry, pal, ang, op, blur, seed) in enumerate(BLOBS):
-        c1, c2, c3 = GRADS[pal]
-        gid = f'g{i}'
-        rad = math.radians(ang)
-        x1, y1 = 50 - math.cos(rad) * 50, 50 - math.sin(rad) * 50
-        x2, y2 = 50 + math.cos(rad) * 50, 50 + math.sin(rad) * 50
-        defs.append(
-            f'<linearGradient id="{gid}" x1="{x1:.1f}%" y1="{y1:.1f}%" '
-            f'x2="{x2:.1f}%" y2="{y2:.1f}%">'
-            f'<stop offset="0%" stop-color="{c1}"/>'
-            f'<stop offset="52%" stop-color="{c2}"/>'
-            f'<stop offset="100%" stop-color="{c3}"/></linearGradient>')
-        defs.append(
-            f'<filter id="f{i}" x="-40%" y="-40%" width="180%" height="180%">'
-            f'<feGaussianBlur stdDeviation="{blur}"/></filter>')
-        body.append(
-            f'<path d="{blob_path(cx, cy, rx, ry, seed)}" fill="url(#{gid})" '
-            f'opacity="{op}" filter="url(#f{i})"/>')
+    small = solve()
+    im = Image.fromarray(small.astype(np.uint8), 'RGB')
+    # Inverse-distance weighting leaves a faint halo around each control
+    # point. Blurring at solve resolution erases that local structure while
+    # leaving the large-scale colour flow untouched.
+    im = im.filter(ImageFilter.GaussianBlur(radius=7))
+    # bicubic up from a small solve leaves no structure to read as blotches
+    im = im.resize((W // 2, H // 2), Image.BICUBIC).resize((W, H), Image.BICUBIC)
 
-    return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" '
-            f'width="{W}" height="{H}">'
-            f'<defs>{"".join(defs)}</defs>'
-            f'<rect width="{W}" height="{H}" fill="#08060F"/>'
-            f'{"".join(body)}</svg>')
+    # A smooth gradient this large will band on press. A little noise below
+    # the visible threshold breaks the steps up.
+    a = np.asarray(im).astype(np.float32)
+    rng = np.random.default_rng(7)
+    a += rng.normal(0.0, 1.7, a.shape)
+    return Image.fromarray(np.clip(a, 0, 255).astype(np.uint8), 'RGB')
 
 
 if __name__ == '__main__':
-    svg = build()
-    with open('mesh.svg', 'w') as f:
-        f.write(svg)
-    print('mesh.svg', len(svg), 'chars,', len(BLOBS), 'blobs')
+    build().save('mesh.png')
+    print('mesh.png', W, 'x', H, '-', len(POINTS), 'control points, power', POWER)

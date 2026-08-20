@@ -124,12 +124,7 @@ BG_HTML = f'''
   <div class="bg">
     <div class="bg-base"></div>
     {MESH}
-    <div class="bg-scrim"></div>
-    <div class="bg-weave"></div>
-    <div class="bg-halftone"></div>
-    <div class="bg-sheen"></div>
     <div class="bg-vig"></div>
-    <div class="bg-rule"></div>
   </div>'''
 
 BG_CSS = f'''
