@@ -61,7 +61,6 @@ FONT_FACES = ''.join([
 mm4_hero = b64('mm4_hero.png')
 mm2_hero = b64('mm2_hero.png')
 matsui_logo = b64('../logo_full.png')
-qr = b64('qr_clean.png')
 # Official lockups. Each already contains the CMYK droplets, the wordmark and
 # the "BY MATSUI INTERNATIONAL" line, so they replace the whole typeset block.
 mm4_logo = b64('mm4_logo.png')
@@ -103,27 +102,21 @@ def droplets(h=54):
                 f'<path d="M24 4C24 4 8 24 8 33a16 16 0 0 0 32 0C40 24 24 4 24 4Z" fill="{c}"/></svg>')
     return f'<span class="droprow">{out}</span>'
 
-MM4_FEATURES = [('drop', '#4FD8EE', 'WASH DURABLE', '60°C × 5 CYCLES'),
-                ('glue-drop', '#FFAE4A', 'INKJET-PRINTABLE', 'GLUE + POWDER')]
-MM2_FEATURES = [('gear', 'AUTOMATED', 'MAINTENANCE'), ('target', 'PRECISION', 'PRINTING'),
-                ('speed', 'HIGH-SPEED', 'PRODUCTION'), ('eco', 'SMART & ECO', 'OPERATION')]
+# Single-line labels in wide bars rather than the old square two-line chips.
+MM2_FEATURES = [('speed', 'HIGH-SPEED PRODUCTION'),
+                ('drop', 'VIBRANT COLOR'),
+                ('target', 'SHARP DETAIL')]
 CONS_SPAN = {'cmykw':'s6','jetting':'s2','cleaner':'s2','powder':'s2',
              'paper_film':'s3','pet_film':'s3'}
-CONSUMABLES = [('cmykw','POWDERLESS CMYKW'), ('jetting','JETTING GLUE'),
-               ('cleaner','CLEANER ST'), ('powder','HYBRID POWDER'),
-               ('paper_film','POWDERLESS PAPER FILMS'), ('pet_film','POWDERLESS PET FILMS')]
-
-def mm4_feats():
-    return ''.join(
-        f'<div class="feat"><span class="ic" style="color:{col}">{icon(ICONS[i])}</span>'
-        f'<div class="ft"><b>{a}</b><span>{b}</span></div></div>'
-        for i, col, a, b in MM4_FEATURES)
+CONSUMABLES = [('cmykw','CMYKW'), ('jetting','JETTING GLUE'),
+               ('cleaner','CLEANER ST'), ('powder','POWDER'),
+               ('paper_film','PAPER FILMS'), ('pet_film','PET FILMS')]
 
 def mm2_feats():
     return ''.join(
-        f'<div class="feat feat-c"><span class="ic" style="color:#FFFFFF">{icon(ICONS[i])}</span>'
-        f'<div class="ft"><b>{a}</b><span>{b}</span></div></div>'
-        for i, a, b in MM2_FEATURES)
+        f'<div class="feat"><span class="ic" style="color:#FFFFFF">{icon(ICONS[i])}</span>'
+        f'<div class="ft"><b>{a}</b></div></div>'
+        for i, a in MM2_FEATURES)
 
 def cons_cards():
     return ''.join(
@@ -240,8 +233,8 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 
 .col {{ position:relative; display:flex; flex-direction:column; align-items:center; }}
-.col-mm4  {{ width:1816px; padding:{SAFE+6}px 0 0; }}
-.col-mm2  {{ width:1568px; padding:{SAFE+6}px 0 0; }}
+.col-mm4  {{ width:1634px; padding:{SAFE+6}px 0 0; }}
+.col-mm2  {{ width:1411px; padding:{SAFE+6}px 0 0; }}
 .col-cons {{ width:1460px; padding:{SAFE+6}px 0 0; }}
 
 /* ---- brandmark ---- */
@@ -267,8 +260,8 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 /* ---- headline ---- */
 .lockup {{ display:block; height:auto; margin:0 auto;
   filter:drop-shadow(0 12px 28px rgba(0,0,0,0.55)); }}
-.lockup-mm4 {{ width:100%; max-width:1816px; }}
-.lockup-mm2 {{ width:100%; max-width:1568px; margin-top:34px; }}
+.lockup-mm4 {{ width:100%; max-width:1634px; }}
+.lockup-mm2 {{ width:100%; max-width:1411px; margin-top:34px; }}
 
 .hl {{ text-align:center; margin-top:62px; }}
 .hl .main {{
@@ -278,10 +271,10 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   -webkit-background-clip:text; background-clip:text; color:transparent;
 }}
 .hl .sub {{
-  display:block; font-family:'Body',sans-serif; font-weight:400; font-size:40px;
-  letter-spacing:1.8px; color:rgba(255,255,255,0.74); margin-top:20px; line-height:1.5;
+  display:block; font-family:'Body',sans-serif; font-weight:400; font-size:54px;
+  letter-spacing:1.8px; color:rgba(255,255,255,0.86); margin-top:22px; line-height:1.4;
 }}
-.rainbow {{ text-align:center; margin-top:52px; }}
+.rainbow {{ text-align:center; margin-top:36px; }}
 .rainbow span {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
   font-size:68px; letter-spacing:0.5px; line-height:1.3;
@@ -291,20 +284,21 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 .rainbow .r3 {{ color:#FFE3F4; }}
 
 /* ---- feature chips ---- */
-.feats {{ display:flex; gap:24px; justify-content:center; flex-wrap:wrap; margin-top:58px; }}
+/* Wide full-width bars stacked down the column, rather than a wrapping row
+   of near-square chips -- a long label reads faster across than stacked. */
+.feats {{ display:flex; flex-direction:column; align-items:center;
+  gap:18px; width:100%; margin-top:40px; }}
 .feat {{
-  display:flex; align-items:center; gap:20px;
+  display:flex; align-items:center; gap:26px; width:940px;
   background:rgba(6,12,18,0.34);
   border:1px solid rgba(255,255,255,0.34);
-  border-radius:5px; padding:22px 30px;
+  border-radius:6px; padding:20px 42px;
 }}
-.feat .ic {{ width:64px; height:64px; flex:none; display:block; }}
+.feat .ic {{ width:76px; height:76px; flex:none; display:block; }}
 .feat .ic svg {{ width:100%; height:100%; display:block; }}
-.feat.feat-c {{ flex-direction:column; text-align:center; gap:14px; padding:26px 24px; }}
-.feat.feat-c .ic {{ width:70px; height:70px; }}
 .ft {{ display:flex; flex-direction:column; line-height:1.24; }}
-.ft b {{ font-family:'Body',sans-serif; font-weight:700; font-size:36px; letter-spacing:2px; color:#fff; }}
-.ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:30px; letter-spacing:1.6px; color:rgba(255,255,255,0.88); }}
+.ft b {{ font-family:'Body',sans-serif; font-weight:700; font-size:48px; letter-spacing:2px; color:#fff; }}
+.ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:40px; letter-spacing:1.6px; color:rgba(255,255,255,0.88); }}
 
 /* ---- hero ---- */
 .hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:flex-end; justify-content:center; padding-bottom:{BOT_PAD}px; }}
@@ -317,9 +311,6 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 .cons-top img.logo {{ height:460px; display:block;
   filter:drop-shadow(0 10px 26px rgba(0,0,0,0.55)); }}
-.cons-top img.qr {{ width:230px; height:230px; background:#fff;
-  padding:10px; border-radius:6px; display:block;
-  box-shadow:0 10px 26px rgba(0,0,0,0.45); }}
 .cons-title {{
   font-family:'Display',sans-serif; font-weight:700; font-size:82px; letter-spacing:-0.5px;
   margin-top:30px; text-align:center; color:#fff;
@@ -351,7 +342,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
              filter:drop-shadow(0 20px 24px rgba(0,0,0,0.6)); }}
 .clab {{
   margin-top:18px; font-family:'Body',sans-serif; font-weight:700;
-  font-size:34px; letter-spacing:2.6px; color:#F2F7FA; text-align:center; line-height:1.3;
+  font-size:44px; letter-spacing:2.4px; color:#F2F7FA; text-align:center; line-height:1.25;
 }}
 '''
 
@@ -363,9 +354,8 @@ CONTENT_HTML = f'''
            alt="MM4 DIGITAL — DTF Hybrid Powder / Powderless by Matsui International"/>
       <div class="hl">
         <span class="main">HYBRID</span>
-        <span class="sub">Printable by Conventional Methods!<br/>OEKO-TEX Application Pending</span>
+        <span class="sub">ONE SYSTEM &mdash; POWDER + POWDERLESS</span>
       </div>
-      <div class="feats">{mm4_feats()}</div>
       <div class="hero"><img src="data:image/png;base64,{mm4_hero}" alt="MM4 Digital DTF printer"/></div>
     </div>
 
@@ -384,7 +374,6 @@ CONTENT_HTML = f'''
     <div class="col col-cons">
       <div class="cons-top">
         <img class="logo" src="data:image/png;base64,{matsui_logo}" alt="Matsui International"/>
-        <img class="qr" src="data:image/png;base64,{qr}" alt="matsui-color.com"/>
       </div>
       <div class="cons-title">DTF <span>CONSUMABLES</span></div>
       <div class="cons-rule"></div>
