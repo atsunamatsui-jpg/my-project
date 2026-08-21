@@ -1,5 +1,32 @@
 # Matsui DTF Tradeshow Banner — Print Specification
 
+## Aspect ratio — read this first
+
+The finished banner is **20 × 10 ft — exactly 2.000000 : 1**.
+
+The main file measures **61 × 31 in, which is deliberately _not_ 2:1**. That is
+the bleed. The chain is:
+
+```
+61 × 31 in  (file, quarter scale)
+  × 400%      → 244 × 124 in
+  − 2 in bleed on each edge → 240 × 120 in = 20 × 10 ft = 2.000000 : 1
+```
+
+**Do not let a printer scale 61 × 31 to fit a 20 × 10 frame** — that squashes
+the artwork about 1.6% vertically and throws away the bleed. Two files are
+supplied so this cannot be ambiguous:
+
+| If the printer wants… | Send |
+|---|---|
+| artwork **with bleed** (most vinyl shops, for the hem) | `...-300dpi.eps` — 61 × 31 in |
+| artwork at **exact finished size** | `...-300dpi-TRIM-no-bleed.eps` — 60 × 30 in, exactly 2:1 |
+
+The trim file is the composite with the bleed cut off — 18000 × 9000 px, which
+is 2.000000 : 1 to six decimal places. `matsui-banner-trim-export.py`
+regenerates it and **asserts** the ratio, so a build that drifted off 2:1 fails
+rather than shipping quietly.
+
 ## Finished size
 
 | | inches | feet |
@@ -31,9 +58,9 @@ bleed, so the banner reads as one piece.
 
 The gradient was re-tuned for this: the blue → violet → pink → orange
 progression is compressed into the content band so the luminous part of the
-field sits behind the artwork, and the lower third resolves into deeper
+field sits behind the artwork, and the clear strip resolves into deeper
 indigo and plum. It holds the same saturation as the rest of the sheet
-(0.56) at about 76% of the value, so it stays coloured ink rather than
+(0.56) at about 80% of the value, so it stays coloured ink rather than
 turning into a dark margin.
 
 The proof (`...-PROOF-guides.png`) marks the line in green.
@@ -66,13 +93,15 @@ Artwork is supplied at **quarter scale, 300 DPI** — a 61 × 31 in sheet.
 
 | File | Use |
 |---|---|
-| `matsui-banner-20x10-300dpi.eps` | **Send this to the printer.** Composite, with bleed. |
+| `matsui-banner-20x10-300dpi.eps` | **Send this to the printer.** Composite, 61 × 31 in with bleed. |
+| `...-300dpi-TRIM-no-bleed.eps` | Composite at exact finished size, 60 × 30 in = exactly 2:1. Use if the printer wants no bleed. |
 | `...-300dpi-BACKGROUND.eps` | Background layer only. |
 | `...-300dpi-ARTWORK.eps` | Content layer only (ground baked in — EPS cannot hold alpha). |
 | `...-300dpi-artwork.png` | Content layer on **true transparency** — use this one to drop the artwork over a different background. |
 | `matsui-banner-20x10-PROOF-guides.png` | Proof only. Shows bleed / trim / safe lines. **Do not print.** |
 | `matsui-banner-20x10.html` | Editable source. |
 | `matsui-banner-20x10-build.py` | Build script — regenerates every file above. |
+| `matsui-banner-trim-export.py` | Cuts the bleed off the composite to make the exact-2:1 trim file. |
 
 ## Resolution — read before ordering
 
