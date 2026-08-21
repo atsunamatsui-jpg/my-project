@@ -298,7 +298,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   align-items:stretch; gap:20px; width:100%; margin-top:32px; }}
 .feat {{
   flex:1 1 0; min-width:0;
-  display:flex; align-items:center; gap:22px;
+  display:flex; align-items:center; justify-content:center; gap:22px;
   background:rgba(6,12,18,0.34);
   border:1px solid rgba(255,255,255,0.34);
   border-radius:6px; padding:20px 30px;
@@ -306,9 +306,14 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 /* the lone MM4 bar hugs its label instead of stretching the full column */
 .feat-solo {{ flex:0 0 auto; padding:20px 44px; }}
 .col-mm2 .feats {{ margin-top:24px; }}
+/* Lifting the icon out of the flow lets the label centre on the box itself.
+   Left in the flow it centres as an icon+text pair, which sits the words a
+   couple of inches right of centre. */
+.col-mm2 .feat {{ position:relative; }}
+.col-mm2 .feat .ic {{ position:absolute; left:32px; top:50%; transform:translateY(-50%); }}
 .feat .ic {{ width:76px; height:76px; flex:none; display:block; }}
 .feat .ic svg {{ width:100%; height:100%; display:block; }}
-.ft {{ display:flex; flex-direction:column; line-height:1.24; }}
+.ft {{ display:flex; flex-direction:column; line-height:1.24; text-align:center; }}
 .ft b {{ font-family:'Body',sans-serif; font-weight:700; font-size:48px; letter-spacing:2px; color:#fff; }}
 .ft span {{ font-family:'Body',sans-serif; font-weight:400; font-size:40px; letter-spacing:1.6px; color:rgba(255,255,255,0.88); }}
 
