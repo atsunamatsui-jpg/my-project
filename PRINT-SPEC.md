@@ -43,19 +43,17 @@ setup changes and you want content lower, change that one value and rebuild.
 
 ## Column spacing
 
-The three columns are sized to hug their own widest element and are separated
-by a single constant, `COL_GAP` (240 px = 9.6 in), with the group centred.
-Earlier the columns split the full width as percentages, which left 17–19 in
-between blocks; the gap is now a number you can set rather than a leftover.
+The three columns are separated by a single constant, `COL_GAP` (200 px =
+8 in), with the group centred. Column widths are set to what each machine
+needs at full height — 2000 / 1850 / 1510 px — so the group now spans about
+230 in of the 240 in width, leaving **4.8 in outer margins**, just outside the
+4 in safe line.
 
-Because the machine photos are limited by the height of the content band, not
-by width, their image boxes were heavily letterboxed — so the columns could
-be brought in **without any artwork getting smaller**. Lockups, machines and
-consumable cards are all identical in size to the previous version.
-
-Outer margins land at about 13 in a side. Gaps and margins trade against each
-other one-for-one: the artwork totals about 194 in of the 240 in width, so
-tightening the gaps further widens the margins by the same amount.
+The machine photos are limited by the **height** of the content band, not by
+width. Making them bigger therefore means freeing vertical space, not widening
+columns — which is why the MM4 lockup came down and the feature bars run
+across the column rather than stacking. Both machines now print **42 in tall**
+(a 100% height match between them), up from 39 in and 30 in.
 
 ## Files
 

@@ -33,11 +33,12 @@ CONTENT_H = TRIM_H * 2 // 3        # 2000 px = 80 in
 BOT_PAD = 58                       # content no longer runs to the hem, so the
                                    # 4in safe margin is only needed up top
 
-# Each column is sized to hug its own widest element, so the space between
-# the three blocks is this one number rather than an accident of how the
-# percentages happened to divide. Set so the gaps and the outer margins come
-# out equal -- the group reads as three related blocks, not three islands.
-COL_GAP = 240
+# Column widths are set to what each machine needs at full height, so the space
+# between the three blocks is this one number rather than an accident of how
+# percentages happened to divide. With the columns this wide the group nearly
+# fills the sheet: outer margins land just under 5in, a little over the 4in
+# safe line.
+COL_GAP = 200
 
 SHOW_GUIDES = '--guides' in sys.argv
 
@@ -102,10 +103,12 @@ def droplets(h=54):
                 f'<path d="M24 4C24 4 8 24 8 33a16 16 0 0 0 32 0C40 24 24 4 24 4Z" fill="{c}"/></svg>')
     return f'<span class="droprow">{out}</span>'
 
-# Single-line labels in wide bars rather than the old square two-line chips.
-MM2_FEATURES = [('speed', 'HIGH-SPEED PRODUCTION'),
-                ('drop', 'VIBRANT COLOR'),
-                ('target', 'SHARP DETAIL')]
+# Three bars sit side by side across the column, so each label breaks over two
+# lines at the same weight -- it is one label, not a heading and a sub-line.
+MM2_FEATURES = [('speed', 'HIGH-SPEED', 'PRODUCTION'),
+                ('drop', 'VIBRANT', 'COLOR'),
+                ('target', 'SHARP', 'DETAIL')]
+MM4_FEATURE = ('glue-drop', 'ONE SYSTEM &mdash; POWDER + POWDERLESS')
 CONS_SPAN = {'cmykw':'s6','jetting':'s2','cleaner':'s2','powder':'s2',
              'paper_film':'s3','pet_film':'s3'}
 CONSUMABLES = [('cmykw','CMYKW'), ('jetting','JETTING GLUE'),
@@ -115,8 +118,13 @@ CONSUMABLES = [('cmykw','CMYKW'), ('jetting','JETTING GLUE'),
 def mm2_feats():
     return ''.join(
         f'<div class="feat"><span class="ic" style="color:#FFFFFF">{icon(ICONS[i])}</span>'
-        f'<div class="ft"><b>{a}</b></div></div>'
-        for i, a in MM2_FEATURES)
+        f'<div class="ft"><b>{a}</b><b>{b}</b></div></div>'
+        for i, a, b in MM2_FEATURES)
+
+def mm4_feat():
+    i, label = MM4_FEATURE
+    return (f'<div class="feat feat-solo"><span class="ic" style="color:#FFFFFF">'
+            f'{icon(ICONS[i])}</span><div class="ft"><b>{label}</b></div></div>')
 
 def cons_cards():
     return ''.join(
@@ -233,9 +241,9 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 
 .col {{ position:relative; display:flex; flex-direction:column; align-items:center; }}
-.col-mm4  {{ width:1634px; padding:{SAFE+6}px 0 0; }}
-.col-mm2  {{ width:1411px; padding:{SAFE+6}px 0 0; }}
-.col-cons {{ width:1460px; padding:{SAFE+6}px 0 0; }}
+.col-mm4  {{ width:2000px; padding:{SAFE+6}px 0 0; }}
+.col-mm2  {{ width:1850px; padding:{SAFE+6}px 0 0; }}
+.col-cons {{ width:1510px; padding:{SAFE+6}px 0 0; }}
 
 /* ---- brandmark ---- */
 .droprow {{ display:inline-flex; align-items:center; }}
@@ -260,10 +268,10 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 /* ---- headline ---- */
 .lockup {{ display:block; height:auto; margin:0 auto;
   filter:drop-shadow(0 12px 28px rgba(0,0,0,0.55)); }}
-.lockup-mm4 {{ width:100%; max-width:1634px; }}
-.lockup-mm2 {{ width:100%; max-width:1411px; margin-top:34px; }}
+.lockup-mm4 {{ width:100%; max-width:1440px; }}
+.lockup-mm2 {{ width:100%; max-width:1411px; margin-top:12px; }}
 
-.hl {{ text-align:center; margin-top:62px; }}
+.hl {{ text-align:center; margin-top:40px; }}
 .hl .main {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
   font-size:112px; letter-spacing:-2px; line-height:1;
@@ -274,7 +282,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   display:block; font-family:'Body',sans-serif; font-weight:400; font-size:54px;
   letter-spacing:1.8px; color:rgba(255,255,255,0.86); margin-top:22px; line-height:1.4;
 }}
-.rainbow {{ text-align:center; margin-top:36px; }}
+.rainbow {{ text-align:center; margin-top:20px; }}
 .rainbow span {{
   display:block; font-family:'Display',sans-serif; font-weight:700;
   font-size:68px; letter-spacing:0.5px; line-height:1.3;
@@ -286,14 +294,18 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 /* ---- feature chips ---- */
 /* Wide full-width bars stacked down the column, rather than a wrapping row
    of near-square chips -- a long label reads faster across than stacked. */
-.feats {{ display:flex; flex-direction:column; align-items:center;
-  gap:18px; width:100%; margin-top:40px; }}
+.feats {{ display:flex; flex-direction:row; justify-content:center;
+  align-items:stretch; gap:20px; width:100%; margin-top:32px; }}
 .feat {{
-  display:flex; align-items:center; gap:26px; width:940px;
+  flex:1 1 0; min-width:0;
+  display:flex; align-items:center; gap:22px;
   background:rgba(6,12,18,0.34);
   border:1px solid rgba(255,255,255,0.34);
-  border-radius:6px; padding:20px 42px;
+  border-radius:6px; padding:20px 30px;
 }}
+/* the lone MM4 bar hugs its label instead of stretching the full column */
+.feat-solo {{ flex:0 0 auto; padding:20px 44px; }}
+.col-mm2 .feats {{ margin-top:24px; }}
 .feat .ic {{ width:76px; height:76px; flex:none; display:block; }}
 .feat .ic svg {{ width:100%; height:100%; display:block; }}
 .ft {{ display:flex; flex-direction:column; line-height:1.24; }}
@@ -315,10 +327,10 @@ body {{ display:flex; justify-content:center; align-items:center; }}
   font-family:'Display',sans-serif; font-weight:700; font-size:82px; letter-spacing:-0.5px;
   margin-top:30px; text-align:center; color:#fff;
 }}
-.cons-title span {{ color:#C9A227; }}
+.cons-title span {{ color:#FFE28A; }}
 .cons-rule {{
   width:210px; height:1px; margin:20px auto 28px;
-  background:linear-gradient(90deg,rgba(201,162,39,0) 0%,#C9A227 50%,rgba(201,162,39,0) 100%);
+  background:linear-gradient(90deg,rgba(255,226,138,0) 0%,#FFE28A 50%,rgba(255,226,138,0) 100%);
 }}
 .cons-grid {{
   flex:1; min-height:0; width:100%;
@@ -354,8 +366,8 @@ CONTENT_HTML = f'''
            alt="MM4 DIGITAL — DTF Hybrid Powder / Powderless by Matsui International"/>
       <div class="hl">
         <span class="main">HYBRID</span>
-        <span class="sub">ONE SYSTEM &mdash; POWDER + POWDERLESS</span>
       </div>
+      <div class="feats">{mm4_feat()}</div>
       <div class="hero"><img src="data:image/png;base64,{mm4_hero}" alt="MM4 Digital DTF printer"/></div>
     </div>
 
