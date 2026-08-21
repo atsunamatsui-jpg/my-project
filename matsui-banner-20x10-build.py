@@ -24,10 +24,10 @@ SAFE  = SAFE_IN * PX_PER_IN        # 100 px
 W, H = TRIM_W + BLEED*2, TRIM_H + BLEED*2   # 6100 x 3100 = 244 x 124 in
 
 # On a booth the lower part of a 10ft-tall banner sits behind tables, below
-# eye level and often blocked by people, so all content is held in the top
-# two thirds. The bottom third carries background only -- nothing there is
-# load-bearing if it is never seen.
-CONTENT_H = TRIM_H * 2 // 3        # 2000 px = 80 in
+# eye level and often blocked by people, so a strip along the bottom carries
+# background only -- nothing there is load-bearing if it is never seen.
+CLEAR_IN = 30                      # 2.5 ft of clear space at the foot
+CONTENT_H = TRIM_H - CLEAR_IN * PX_PER_IN      # 2250 px = 90 in
 # Bottom padding has to clear the deepest drop-shadow as well as the artwork,
 # or the shadows feather down past the line into the zone that must stay clean.
 BOT_PAD = 58                       # content no longer runs to the hem, so the
@@ -194,7 +194,7 @@ BG_CSS = f'''
 }}
 .bg-vig {{
   position:absolute; inset:0;
-  background:radial-gradient(ellipse 78% 62% at 50% 33%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.30) 100%);
+  background:radial-gradient(ellipse 78% 66% at 50% 38%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.30) 100%);
 }}
 .bg-unused-seam {{
   content:""; position:absolute; top:0; bottom:0; left:0; width:3px;
@@ -219,15 +219,15 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 
 .unify {{
   position:absolute; inset:0; z-index:3; pointer-events:none;
-  background:radial-gradient(ellipse 92% 78% at 50% 33%,
+  background:radial-gradient(ellipse 92% 82% at 50% 38%,
     rgba(150,140,210,0.06) 0%, rgba(60,40,110,0.10) 62%, rgba(10,6,24,0.22) 100%);
   mix-blend-mode:soft-light;
   /* This wash exists to tie the composited subjects to the ground. There are
      no subjects in the lower third, so it fades out before the clear zone --
      that leaves the artwork layer genuinely empty there, which is what makes
      the background swappable without a ghost tint riding along. */
-  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 66%);
-  mask-image:linear-gradient(180deg,#000 0%,#000 52%,transparent 66%);
+  -webkit-mask-image:linear-gradient(180deg,#000 0%,#000 62%,transparent 74%);
+  mask-image:linear-gradient(180deg,#000 0%,#000 62%,transparent 74%);
 }}
 
 .content {{
@@ -241,8 +241,8 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 }}
 
 .col {{ position:relative; display:flex; flex-direction:column; align-items:center; }}
-.col-mm4  {{ width:2000px; padding:{SAFE+6}px 0 0; }}
-.col-mm2  {{ width:1850px; padding:{SAFE+6}px 0 0; }}
+.col-mm4  {{ width:2072px; padding:{SAFE+6}px 0 0; }}
+.col-mm2  {{ width:1798px; padding:{SAFE+6}px 0 0; }}
 .col-cons {{ width:1510px; padding:{SAFE+6}px 0 0; }}
 
 /* ---- brandmark ---- */
@@ -314,7 +314,7 @@ body {{ display:flex; justify-content:center; align-items:center; }}
 
 /* ---- hero ---- */
 .hero {{ flex:1; min-height:0; width:100%; display:flex; align-items:flex-end; justify-content:center; padding-bottom:{BOT_PAD}px; }}
-.hero img {{ width:104%; max-width:none; height:auto; max-height:100%; object-fit:contain; display:block;
+.hero img {{ width:100%; max-width:none; height:auto; max-height:100%; object-fit:contain; display:block;
              filter:drop-shadow(0 24px 30px rgba(0,0,0,0.62)); }}
 
 /* ---- consumables column ---- */
@@ -401,7 +401,7 @@ GUIDE_HTML = f'''
     <div class="g-tag g-tag-bleed">BLEED {BLEED_IN}in — 244 x 124 in</div>
     <div class="g-tag g-tag-safe">SAFE {SAFE_IN}in</div>
     <div class="g-clear"></div>
-    <div class="g-tag g-tag-clear">CLEAR ZONE — bottom 1/3 (40in) background only</div>
+    <div class="g-tag g-tag-clear">CLEAR ZONE — bottom {CLEAR_IN} in (2.5 ft) background only</div>
   </div>'''
 
 GUIDE_CSS = f'''

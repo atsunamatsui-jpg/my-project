@@ -8,8 +8,8 @@
 | **With bleed** | 244 × 124 | — |
 | **Bleed** | 2 in all sides | — |
 | **Safe margin** | 4 in inside trim | — |
-| **Content band** | top 80 in | top 6 ft 8 in |
-| **Clear zone** | bottom 40 in | bottom 3 ft 4 in |
+| **Content band** | top 90 in | top 7 ft 6 in |
+| **Clear zone** | bottom 30 in | bottom 2 ft 6 in |
 
 No printer spec was supplied, so these are standard vinyl-banner values:
 2 in bleed clears the hem, and the 4 in safe margin keeps all type off the
@@ -17,14 +17,14 @@ hem and grommet line. **If your printer specifies different values, send them
 and the files can be rebuilt — the bleed and safe margin are parameters in
 `matsui-banner-20x10-build.py`, not baked into the artwork.**
 
-## Clear zone — bottom third
+## Clear zone — bottom 2.5 ft
 
-All artwork is held in the **top two thirds** (top 80 in). The **bottom 40 in
-carries background gradient only** — no logos, machines, product shots or
-type — because on a booth that band sits behind tables, below eye level and
-behind foot traffic.
+All artwork is held in the **top 90 in**. The **bottom 30 in (2.5 ft) carries
+background gradient only** — no logos, machines, product shots or type —
+because on a booth that band sits behind tables, below eye level and behind
+foot traffic.
 
-This is enforced, not just laid out: the content box is clipped at the 80 in
+This is enforced, not just laid out: the content box is clipped at the 90 in
 line, so the artwork layer contains **zero** pixels below it, drop-shadow
 tails included. The background gradient still runs the full height and full
 bleed, so the banner reads as one piece.
@@ -38,22 +38,26 @@ turning into a dark margin.
 
 The proof (`...-PROOF-guides.png`) marks the line in green.
 
-The split is a constant — `CONTENT_H` in the build script. If the booth
-setup changes and you want content lower, change that one value and rebuild.
+The split is a constant — `CLEAR_IN` in the build script (30 in). If the booth
+setup changes, edit that one value and rebuild; the content band and the
+background's colour distribution both follow from it.
 
 ## Column spacing
 
 The three columns are separated by a single constant, `COL_GAP` (200 px =
-8 in), with the group centred. Column widths are set to what each machine
-needs at full height — 2000 / 1850 / 1510 px — so the group now spans about
-230 in of the 240 in width, leaving **4.8 in outer margins**, just outside the
-4 in safe line.
+8 in), with the group centred. Column widths are 2072 / 1798 / 1510 px, solved
+so that **both machines reach the same height**, and the group spans about
+231 in of the 240 in width — **4.4 in outer margins**, just outside the 4 in
+safe line.
 
-The machine photos are limited by the **height** of the content band, not by
-width. Making them bigger therefore means freeing vertical space, not widening
-columns — which is why the MM4 lockup came down and the feature bars run
-across the column rather than stacking. Both machines now print **42 in tall**
-(a 100% height match between them), up from 39 in and 30 in.
+The machine photos were limited by the **height** of the content band until
+the band grew to 90 in; they are now limited by column width instead. Both
+print **49 in tall**, a 100% match between them, up from 39 in and 30 in.
+
+Measured on the full-resolution artwork layer, the group spans x 160–5938 px
+against a 150–5950 px safe box, so it sits just inside the safe margin on both
+sides. The machine images are set to 100% of their column for this reason — an
+earlier 104% let them bleed past the safe line once the columns got this wide.
 
 ## Files
 

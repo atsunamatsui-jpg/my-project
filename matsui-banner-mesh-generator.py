@@ -26,11 +26,11 @@ def hexrgb(h):
 # the headlines sit, warming and brightening down and to the right, following
 # the blue -> violet -> pink -> orange progression of the reference.
 #
-# All content now sits in the top two thirds, so the whole progression is
-# compressed into that band (BAND) and the bottom third is given its own set
-# of deep points. Otherwise the brightest, warmest corner of the field lands
-# in the empty zone and pulls the eye away from the artwork.
-BAND = 0.64
+# All content sits above the clear zone at the foot of the banner, so the whole
+# progression is compressed into that band (BAND) and the clear strip is given
+# its own set of deep points. Otherwise the brightest, warmest corner of the
+# field lands in the empty zone and pulls the eye away from the artwork.
+BAND = 0.72
 
 POINTS = [
     (0.00, 0.00, '#0B0A22'), (0.30, 0.00, '#141038'), (0.62, 0.00, '#171043'),
@@ -47,13 +47,13 @@ POINTS = [
 ]
 POINTS = [(x, y * BAND, c) for x, y, c in POINTS]
 
-# The lower third. Same hue journey left to right -- indigo, violet, plum,
+# The clear strip. Same hue journey left to right -- indigo, violet, plum,
 # ember -- carried down at roughly half value so the band stays part of the
 # same field rather than reading as a separate dark bar, and keeps enough
 # colour to still look like ink rather than a black margin.
 POINTS += [
-    (0.00, 0.82, '#2A2A6B'), (0.26, 0.84, '#3A3080'), (0.52, 0.86, '#4E2F78'),
-    (0.76, 0.86, '#6B3068'), (1.00, 0.84, '#7E3A55'),
+    (0.00, 0.88, '#2A2A6B'), (0.26, 0.89, '#3A3080'), (0.52, 0.90, '#4E2F78'),
+    (0.76, 0.90, '#6B3068'), (1.00, 0.89, '#7E3A55'),
 
     (0.00, 1.00, '#191A46'), (0.30, 1.00, '#231B52'), (0.60, 1.00, '#341E4E'),
     (0.84, 1.00, '#48213F'), (1.00, 1.00, '#552732'),
